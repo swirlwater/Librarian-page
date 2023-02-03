@@ -7,7 +7,9 @@
     </div>
     <div class="demo-register">
         <Login ref="form" @on-submit="handleSubmit">
-            <Email name="mail" />
+            <UserName name="username" value=""/>
+            <Email name="mail"/>
+            <Mobile name="phone" value=""/>
             <Poptip trigger="focus" placement="right" width="240">
                 <Password name="password" :rules="passwordRule" placeholder="至少6位密码，区分大小写"
                     @on-change="handleChangePassword" />
@@ -31,6 +33,7 @@
 </template>
 <script>
 import TitleVue from '@/components/TitleVue.vue'
+import { Mobile, UserName } from 'view-ui-plus';
 
 export default {
     name: 'RegisterView',
@@ -63,8 +66,10 @@ export default {
         }
     },
     components: {
-        TitleVue
-    },
+    TitleVue,
+    UserName,
+    Mobile
+},
     computed: {
         // 密码强度提示文案等
         passwordTip() {
