@@ -34,19 +34,20 @@ export default {
   methods: {
     handleSubmit(valid, { username, password }) {
       if (valid) {
-        console.log(username + password),
-          this.$axios.post('/user/login', {
-            username: 'zhangsan',
-            password: '123'
+        this.$axios.post('/user/login', {
+          username: username,
+          password: password
+        })
+          .then(successResponse => {
+            if (successResponse.data.code == 200) {
+              localStorage.username=username
+              localStorage.password=password
+              this.$router.push('/main')
+            }
           })
-            .then(successResponse => {
-              if (successResponse.data.code == 200) {
-                this.$router.push('/main')
-              }
-            })
-            .catch(failResponse => {
-              console.log(failResponse)
-            })
+          .catch(failResponse => {
+            console.log(failResponse)
+          })
       }
     },
     toRegister() {

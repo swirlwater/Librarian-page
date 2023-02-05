@@ -8,17 +8,26 @@ const routes = [
     path: '/login',
     name: 'LoginView',
     component: LoginView,
-    alias: ['/']
+    alias: '/',
+    meta: {
+      requireLogin: false
+    }
   },
   {
     path: '/main',
     name: 'MainView',
-    component: MainView
+    component: MainView,
+    meta: {
+      requireLogin: true
+    }
   },
   {
     path: '/register',
     name: 'RegisterView',
-    component: RegisterView
+    component: RegisterView,
+    meta: {
+      requireLogin: false
+    }
   }
 ]
 
