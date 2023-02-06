@@ -70,7 +70,7 @@
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{ padding: '24px', minHeight: '500px', background: '#fff' }">
-                        <BookSearchVue />
+                        <BookManageVue />
                     </Content>
                 </Layout>
             </Layout>
@@ -78,10 +78,10 @@
     </div>
 </template>
 <script>
-import BookSearchVue from '@/components/BookSearchVue.vue'
+import BookManageVue from '@/components/BookManageVue.vue'
 export default {
     components: {
-        BookSearchVue
+        BookManageVue
     }
 }
 </script>

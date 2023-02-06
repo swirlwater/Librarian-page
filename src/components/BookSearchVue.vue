@@ -19,7 +19,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="80" />
+    <Page v-model="currentPage" :total="total" />
 </template>
 
 <script>
@@ -90,7 +90,8 @@ export default {
             ],
             currentPage: 1,
             author: '',
-            bookName: ''
+            bookName: '',
+            total: 1
         }
     },
     methods: {
@@ -113,6 +114,7 @@ export default {
             })
                 .then(successResponse => {
                     this.data = successResponse.data.object.records
+                    this.total=successResponse.data.object.total
                 })
                 .catch(failResponse => {
                     console.log(failResponse)
