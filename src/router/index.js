@@ -8,7 +8,6 @@ const routes = [
     path: '/login',
     name: 'LoginView',
     component: LoginView,
-    alias: '/',
     meta: {
       requireLogin: false
     }
@@ -17,6 +16,7 @@ const routes = [
     path: '/main',
     name: 'MainView',
     component: MainView,
+    alias: '/',
     meta: {
       requireLogin: true
     }

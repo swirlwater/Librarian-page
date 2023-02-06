@@ -12,30 +12,13 @@ const app = createApp(App)
   .use(ViewUIPlus)
 
 app.config.globalProperties.$axios = axios //配置axios的全局引用
-axios.interceptors.response.use(//axios拦截器
-  response => {
-    if (response.data.code == 500) {
-      router.push({
-        path: '/login',
-        query: {
-          redirect: this.$route.fullPath
-        }
-      })
-      return Promise.reject(response.data)
-    }
-    return response
-  }, error => {
-    return Promise.reject(error.response.data)
-  }
-)
-router.beforeEach((to, from, next) => {
-  let user = store.state.user
+
+router.beforeEach((to, from, next) => {//路由前置守卫
   if (to.matched.some(recond => recond.meta.requireLogin)) {
-    if (JSON.stringify(user) === '{}') {
+    if (localStorage.getItem('token')) {
       next()
-      router.push({ path: '/login', query: { redirect: to.fullPath } })
     } else {
-      next()
+      next({path: '/login'})
     }
   } else {
     next()

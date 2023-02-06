@@ -9,8 +9,6 @@ import FooterVue from './components/FooterVue.vue'
 export default {
   name: 'AppView',
   mounted() {
-    this.$store.dispatch('getUser')
-    // this.$router.push('/login')
   },
   components: {
     FooterVue

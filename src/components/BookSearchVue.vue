@@ -1,18 +1,18 @@
 <template>
     <Space>
         书名:
-        <Input placeholder="Enter name" style="width: auto">
+        <Input v-model="bookName" placeholder="Enter name" style="width: auto">
         <template #prefix>
             <Icon type="ios-book" />
         </template>
         </Input>
         作者:
-        <Input placeholder="Enter text" style="width: auto">
+        <Input v-model="author" placeholder="Enter text" style="width: auto">
         <template #prefix>
             <Icon type="ios-contact" />
         </template>
         <template #suffix>
-            <Icon type="ios-search" @click="press" />
+            <Icon type="ios-search" @click="press(bookName, author, currentPage)" />
         </template>
         </Input>
     </Space>
@@ -31,15 +31,7 @@ export default {
             columns: [
                 {
                     title: '书名',
-                    key: 'name',
-                    render: (h, params) => {
-                        return h('div', [
-                            h(resolveComponent('Icon'), {
-                                type: 'ios-paper'
-                            }),
-                            h('strong', params.row.name)
-                        ]);
-                    }
+                    key: 'bookName'
                 },
                 {
                     title: '作者',
@@ -94,28 +86,11 @@ export default {
                 }
             ],
             data: [
-                {
-                    name: 'John Brown',
-                    author: 18,
-                    content: 'New York No. 1 Lake Park'
-                },
-                {
-                    name: 'Jim Green',
-                    author: 24,
-                    content: 'London No. 1 Lake Park'
-                },
-                {
-                    name: 'Joe Black',
-                    author: 30,
-                    content: 'Sydney No. 1 Lake Park'
-                },
-                {
-                    name: 'Jon Snow',
-                    author: 26,
-                    content: 'Ottawa No. 2 Lake Park'
-                }
+
             ],
-            currentPage: 1
+            currentPage: 1,
+            author: '',
+            bookName: ''
         }
     },
     methods: {
@@ -128,14 +103,26 @@ export default {
         remove(index) {
             this.data.splice(index, 1);
         },
-        press() {
-            alert('hello')
+        press(bookName, author, currentPage) {
+            this.$axios.get('/book/query', {
+                params: {
+                    bookName: bookName,
+                    author: author,
+                    currentPage: currentPage
+                }
+            })
+                .then(successResponse => {
+                    this.data = successResponse.data.object.records
+                })
+                .catch(failResponse => {
+                    console.log(failResponse)
+                })
         }
     }
 }
 </script>
 <style>
-.space{
+.space {
     height: 30px;
 }
 </style>
