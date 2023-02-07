@@ -26,13 +26,13 @@
             </Header>
             <Layout>
                 <Sider hide-trigger :style="{ background: '#fff' }">
-                    <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+                    <Menu theme="light" width="auto" @on-select="onselect">
                         <Submenu name="1">
                             <template #title>
                                 <Icon type="ios-book"></Icon>
                                 阅读管理
                             </template>
-                            <MenuItem name="1-1">书籍检索</MenuItem>
+                            <MenuItem name="bookSearch">书籍检索</MenuItem>
                             <MenuItem name="1-2">借阅记录</MenuItem>
                             <MenuItem name="1-3">订单管理</MenuItem>
                         </Submenu>
@@ -49,7 +49,7 @@
                                 <Icon type="ios-paper"></Icon>
                                 书籍管理
                             </template>
-                            <MenuItem name="3-1">书籍管理</MenuItem>
+                            <MenuItem name="bookManage">书籍管理</MenuItem>
                             <MenuItem name="3-2">订单处理</MenuItem>
                         </Submenu>
                         <Submenu name="4">
@@ -70,7 +70,7 @@
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{ padding: '24px', minHeight: '500px', background: '#fff' }">
-                        <BookManageVue />
+                        <RouterView />
                     </Content>
                 </Layout>
             </Layout>
@@ -78,10 +78,17 @@
     </div>
 </template>
 <script>
-import BookManageVue from '@/components/BookManageVue.vue'
 export default {
+    mounted() {
+        this.$router.push('/main/home')
+    },
     components: {
-        BookManageVue
+
+    },
+    methods: {
+        onselect(name) {
+            this.$router.push('/main/' + name)
+        }
     }
 }
 </script>

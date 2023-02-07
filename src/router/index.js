@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView'
 import MainView from '@/views/MainView'
 import RegisterView from '@/views/RegisterView'
+import HomeVue from '@/components/HomeVue'
+import BookSearchVue from '@/components/BookSearchVue'
+import BookManageVue from '@/components/BookManageVue'
 
 const routes = [
   {
@@ -19,7 +22,21 @@ const routes = [
     component: MainView,
     meta: {
       requireLogin: true
-    }
+    },
+    children: [
+      {
+        path: 'home',
+        component: HomeVue
+      },
+      {
+        path: 'bookSearch',
+        component: BookSearchVue
+      },
+      {
+        path: 'bookManage',
+        component: BookManageVue
+      }
+    ]
   },
   {
     path: '/register',
