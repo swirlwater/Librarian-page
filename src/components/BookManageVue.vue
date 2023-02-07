@@ -12,7 +12,7 @@
             <Icon type="ios-contact" />
         </template>
         <template #suffix>
-            <Icon type="ios-search" @click="press(bookName, author, currentPage)" />
+            <Icon type="ios-search" @click="query(bookName, author, currentPage)" />
         </template>
         </Input>
         <Button icon="ios-add" @click="add()">添加图书</Button>
@@ -65,7 +65,7 @@ export default {
                                     marginRight: '5px'
                                 },
                                 onClick: () => {
-                                    this.show(params.index)
+                                    this.update(params.index)
                                 }
                             }, {
                                 default() {
@@ -102,16 +102,96 @@ export default {
         }
     },
     methods: {
-        //显示图书信息
-        show(index) {
-            this.$Modal.info({
-                title: 'User Info',
-                content: `Name：${this.data[index].name}<br>Age：${this.data[index].age}<br>Address：${this.data[index].address}`
+        //修改图书信息
+        update(index) {
+            this.addBookName = this.data[index].bookName
+            this.addAuthor = this.data[index].author
+            this.addPress = this.data[index].press
+            this.addContent = this.data[index].content
+            this.addNum = this.data[index].num
+            this.$Modal.confirm({
+                onOk: () => {
+                    this.$axios.put('/book/update', {
+                        id: this.data[index].id,
+                        bookName: this.addBookName,
+                        author: this.addAuthor,
+                        press: this.addPress,
+                        content: this.addContent,
+                        num: this.addNum
+                    }).then(() => {
+                        this.$Message.success('Updated success')
+                    }).catch(() => {
+                        this.$Message.error('Updated fail')
+                    })
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel');
+                },
+                //添加对话框组件
+                render: (h) => {
+                    return [
+                        h(Text, {
+                            modelValue: '书名：'
+                        }),
+                        h(Input, {
+                            size: "default",
+                            modelValue: this.addBookName,
+                            placeholder: 'Please enter bookname...',
+                            'onInput': (event) => {
+                                this.addBookName = event.target.value;
+                            }
+                        }),
+                        h(Text, {
+                            modelValue: '作者：'
+                        }),
+                        h(Input, {
+                            size: "default",
+                            modelValue: this.addAuthor,
+                            placeholder: 'Please enter author...',
+                            'onInput': (event) => {
+                                this.addAuthor = event.target.value;
+                            }
+                        }),
+                        h(Text, {
+                            modelValue: '出版社：'
+                        }),
+                        h(Input, {
+                            size: "default",
+                            modelValue: this.addPress,
+                            placeholder: 'Please enter press...',
+                            'onInput': (event) => {
+                                this.addPress = event.target.value;
+                            }
+                        }),
+                        h(Text, {
+                            modelValue: '描述：'
+                        }),
+                        h(Input, {
+                            type: 'textarea',
+                            size: "default",
+                            modelValue: this.addContent,
+                            placeholder: 'Please enter content...',
+                            'onInput': (event) => {
+                                this.addContent = event.target.value;
+                            }
+                        }),
+                        h(Text, {
+                            modelValue: '数量：'
+                        }),
+                        h(Input, {
+                            size: "default",
+                            modelValue: this.addNum,
+                            placeholder: 'Please enter number...',
+                            'onInput': (event) => {
+                                this.addNum = event.target.value;
+                            }
+                        }),
+                    ]
+                }
             })
         },
         //删除图书
         remove(index) {
-            console.log(this.data[index].id);
             this.$axios.delete('/book/delete', {
                 params: {
                     ids: this.data[index].id
@@ -123,7 +203,7 @@ export default {
             })
             this.data.splice(index, 1);
         },
-        press(bookName, author, currentPage) {
+        query(bookName, author, currentPage) {
             //发送查询图书请求
             this.$axios.get('/book/query', {
                 params: {
@@ -132,7 +212,6 @@ export default {
                     currentPage: currentPage
                 }
             }).then(successResponse => {
-                console.log(successResponse);
                 this.data = successResponse.data.object.records
                 this.total = successResponse.data.object.total
             }).catch(failResponse => {
