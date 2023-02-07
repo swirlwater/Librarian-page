@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import { Input } from 'view-ui-plus'
-import { Text } from 'view-ui-plus'
+import { Input, Text } from 'view-ui-plus'
 import { resolveComponent } from 'vue'
+
 export default {
     data() {
         return {
@@ -111,6 +111,16 @@ export default {
         },
         //删除图书
         remove(index) {
+            console.log(this.data[index].id);
+            this.$axios.delete('/book/delete', {
+                params: {
+                    ids: this.data[index].id
+                }
+            }).then(successResponse => {
+                this.$Message.success(successResponse.data.message)
+            }).catch(failResponse => {
+                this.$Message.error(failResponse.data.message)
+            })
             this.data.splice(index, 1);
         },
         press(bookName, author, currentPage) {
@@ -122,6 +132,7 @@ export default {
                     currentPage: currentPage
                 }
             }).then(successResponse => {
+                console.log(successResponse);
                 this.data = successResponse.data.object.records
                 this.total = successResponse.data.object.total
             }).catch(failResponse => {

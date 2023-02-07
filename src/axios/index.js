@@ -3,11 +3,11 @@ import axios from 'axios'
 
 //使用axios下面的create([config])方法创建axios实例，其中config参数为axios最基本的配置信息。
 const API = axios.create({
-    baseURL: '/api', //请求后端数据的基本地址
-    timeout: 3000,
-    headers: {
-        "Conten-Type": `appplication/x-www-form-urlencoded;charset=utf-8`
-    }
+  baseURL: '/api', //请求后端数据的基本地址
+  timeout: 3000,
+  headers: {
+    "Conten-Type": `appplication/x-www-form-urlencoded;charset=utf-8`
+  }
 })
 
 API.interceptors.request.use(//axios请求拦截器
@@ -15,7 +15,7 @@ API.interceptors.request.use(//axios请求拦截器
     //设置token
     let token = localStorage.token
     if (token && token !== ' ') {
-      config.headers.token=token
+      config.headers.token = token
     }
     return config
   },
