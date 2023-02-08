@@ -34,7 +34,7 @@
                             </template>
                             <MenuItem name="bookSearch">书籍检索</MenuItem>
                             <MenuItem name="1-2">借阅记录</MenuItem>
-                            <MenuItem name="1-3">订单管理</MenuItem>
+                            <MenuItem name="orderAdd">发起订单</MenuItem>
                         </Submenu>
                         <Submenu name="2">
                             <template #title>

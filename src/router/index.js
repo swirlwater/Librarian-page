@@ -5,6 +5,7 @@ import RegisterView from '@/views/RegisterView'
 import HomeVue from '@/components/HomeVue'
 import BookSearchVue from '@/components/BookSearchVue'
 import BookManageVue from '@/components/BookManageVue'
+import OrderAddVue from '@/components/OrderAddVue'
 
 const routes = [
   {
@@ -35,6 +36,10 @@ const routes = [
       {
         path: 'bookManage',
         component: BookManageVue
+      },
+      {
+        path: 'orderAdd',
+        component: OrderAddVue
       }
     ]
   },
