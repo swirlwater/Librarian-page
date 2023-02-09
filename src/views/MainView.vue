@@ -41,7 +41,7 @@
                                 <Icon type="ios-stats"></Icon>
                                 借阅管理
                             </template>
-                            <MenuItem name="2-1">借阅记录</MenuItem>
+                            <MenuItem name="borrowManage">借阅记录</MenuItem>
                             <MenuItem name="2-2">查看订单</MenuItem>
                         </Submenu>
                         <Submenu name="3">
