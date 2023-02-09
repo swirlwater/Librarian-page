@@ -6,6 +6,7 @@ import HomeVue from '@/components/HomeVue'
 import BookSearchVue from '@/components/BookSearchVue'
 import BookManageVue from '@/components/BookManageVue'
 import OrderAddVue from '@/components/OrderAddVue'
+import BorrowSearchVue from '@/components/BorrowSearchVue'
 
 const routes = [
   {
@@ -40,6 +41,10 @@ const routes = [
       {
         path: 'orderAdd',
         component: OrderAddVue
+      },
+      {
+        path: 'borrowSearch',
+        component: BorrowSearchVue
       }
     ]
   },

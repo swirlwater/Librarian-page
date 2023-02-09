@@ -33,7 +33,7 @@
                                 阅读管理
                             </template>
                             <MenuItem name="bookSearch">书籍检索</MenuItem>
-                            <MenuItem name="1-2">借阅记录</MenuItem>
+                            <MenuItem name="borrowSearch">借阅记录</MenuItem>
                             <MenuItem name="orderAdd">发起订单</MenuItem>
                         </Submenu>
                         <Submenu name="2">

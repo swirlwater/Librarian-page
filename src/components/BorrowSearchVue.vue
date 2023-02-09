@@ -12,7 +12,7 @@
             <Icon type="ios-contact" />
         </template>
         <template #suffix>
-            <Icon type="ios-search" @click="press(bookName, author, currentPage)" />
+            <Icon type="ios-search" @click="query(bookName, author, currentPage)" />
         </template>
         </Input>
     </Space>
@@ -38,16 +38,12 @@ export default {
                     key: 'author'
                 },
                 {
-                    title: '描述',
-                    key: 'content'
-                },
-                {
-                    title: '出版社',
-                    key: 'press'
-                },
-                {
-                    title: '库存',
+                    title: '数量',
                     key: 'num'
+                },
+                {
+                    title: '借阅时间',
+                    key: 'lendTime'
                 },
                 {
                     title: '操作',
@@ -67,7 +63,7 @@ export default {
                                 }
                             }, {
                                 default() {
-                                    return '借阅'
+                                    return '归还'
                                 }
                             })
                         ]);
@@ -99,18 +95,19 @@ export default {
             }
         },
         show(index) {
-            //设置借出时间
-            let lendTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
-            //打开对话框
+            //设置归还
+            let repaidTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
             this.$Modal.confirm({
                 title: 'User Info',
-                content: `您是否申请借阅？`,
+                content: `您是否归还图书？`,
                 onOk: () => {
-                    this.$axios.post('/borrow/add', {
+                    this.$axios.put('/borrow/repaid', {
+                        id: this.data[index].id,
                         bookName: this.data[index].bookName,
                         author: this.data[index].author,
-                        num: 1,
-                        lendTime: lendTime
+                        num: this.data[index].num,
+                        lendTime: this.data[index].lendTime,
+                        repaidTime: repaidTime
                     }).then(successResponse => {
                         this.$Message.success(successResponse.data.message)
                     }).catch(failResponse => {
@@ -125,8 +122,8 @@ export default {
         remove(index) {
             this.data.splice(index, 1);
         },
-        press(bookName, author, currentPage) {
-            this.$axios.get('/book/query', {
+        query(bookName, author, currentPage) {
+            this.$axios.get('/borrow/queryWithUser', {
                 params: {
                     bookName: bookName,
                     author: author,
@@ -134,6 +131,7 @@ export default {
                 }
             })
                 .then(successResponse => {
+                    console.log(successResponse);
                     this.data = successResponse.data.object.records
                     this.total = successResponse.data.object.total
                 })
