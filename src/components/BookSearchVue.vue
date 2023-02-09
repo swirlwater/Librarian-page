@@ -67,18 +67,7 @@ export default {
                                 }
                             }, {
                                 default() {
-                                    return '查看'
-                                }
-                            }),
-                            h(resolveComponent('Button'), {
-                                type: 'error',
-                                size: 'small',
-                                onClick: () => {
-                                    this.remove(params.index)
-                                }
-                            }, {
-                                default() {
-                                    return '删除'
+                                    return '借阅'
                                 }
                             })
                         ]);
@@ -95,10 +84,38 @@ export default {
         }
     },
     methods: {
+        dateformat(args) {
+            let dt = new Date()
+            let y = dt.getFullYear()
+            let m = dt.getMonth() + 1
+            let d = dt.getDate()
+            if (args.toLowerCase() === 'yyyy-MM-dd') {
+                return `${y}-${m}-${d}`
+            } else {
+                let hh = dt.getHours()
+                let mm = dt.getMinutes()
+                let ss = dt.getSeconds()
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+            }
+        },
         show(index) {
-            this.$Modal.info({
+            this.$Modal.confirm({
                 title: 'User Info',
-                content: `Name：${this.data[index].name}<br>Age：${this.data[index].age}<br>Address：${this.data[index].address}`
+                content: `您是否申请借阅？`,
+                onOk: () => {
+                    this.$axios.post('/borrow/add', {
+                        bookName: this.data[index].bookName,
+                        num: 1,
+                        lendTime: this.dateformat('yyyy-MM-dd HH:mm:ss')
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                    }).catch(failResponse => {
+                        console.log(failResponse)
+                    })
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel')
+                }
             })
         },
         remove(index) {
@@ -114,7 +131,7 @@ export default {
             })
                 .then(successResponse => {
                     this.data = successResponse.data.object.records
-                    this.total=successResponse.data.object.total
+                    this.total = successResponse.data.object.total
                 })
                 .catch(failResponse => {
                     console.log(failResponse)
