@@ -40,8 +40,6 @@ export default {
         })
           .then(successResponse => {
             if (successResponse.data.code == 200) {
-              localStorage.username = username
-              localStorage.password = password
               localStorage.setItem('token',successResponse.data.object["token"])
               this.$router.push('/main')
             }

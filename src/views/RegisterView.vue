@@ -7,9 +7,9 @@
     </div>
     <div class="demo-register">
         <Login ref="form" @on-submit="handleSubmit">
-            <UserName name="username" value=""/>
-            <Email name="mail"/>
-            <Mobile name="phone" value=""/>
+            <UserName name="username" value="" />
+            <Email name="mail" />
+            <Mobile name="phone" value="" />
             <Poptip trigger="focus" placement="right" width="240">
                 <Password name="password" :rules="passwordRule" placeholder="至少6位密码，区分大小写"
                     @on-change="handleChangePassword" />
@@ -36,7 +36,6 @@ import TitleVue from '@/components/TitleVue.vue'
 import { Mobile, UserName } from 'view-ui-plus';
 
 export default {
-    name: 'RegisterView',
     data() {
         const validatePassCheck = (rule, value, callback) => {
             if (value !== this.$refs.form.formValidate.password) {
@@ -66,10 +65,10 @@ export default {
         }
     },
     components: {
-    TitleVue,
-    UserName,
-    Mobile
-},
+        TitleVue,
+        UserName,
+        Mobile
+    },
     computed: {
         // 密码强度提示文案等
         passwordTip() {
@@ -100,12 +99,18 @@ export default {
         handleChangePassword(val) {
             this.passwordLen = val.length;
         },
-        handleSubmit(valid, { mail, password }) {
+        handleSubmit(valid, { username, mail, password ,phone}) {
             if (valid) {
-                this.$Modal.info({
-                    title: '输入的内容如下：',
-                    content: 'mail: ' + mail + ' | password: ' + password
-                });
+                this.$axios.post('/user/register',{
+                    username: username,
+                    email: mail,
+                    password: password,
+                    phone: phone
+                }).then(()=>{
+                    this.$Message.success('注册成功')
+                }).catch(failResponse=>{
+                    console.log(failResponse)
+                })
             }
         },
         toLogin() {

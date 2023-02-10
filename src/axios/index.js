@@ -12,9 +12,12 @@ const API = axios.create({
 
 API.interceptors.request.use(//axios请求拦截器
   config => {
+    if(config.url.includes('/login')||config.url.includes('/register')){
+      localStorage.removeItem('token')
+    }
     //设置token
     let token = localStorage.token
-    if (token && token !== ' '&& !config.url.includes('/login')) {
+    if (token && token !== ' ') {
       config.headers.token = token
     }
     return config
@@ -40,7 +43,6 @@ API.interceptors.response.use(//axios响应拦截器
     }
     return response
   }, error => {
-    //响应异常信息提示处理
     return Promise.reject(error)
   }
 )
