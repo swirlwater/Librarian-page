@@ -14,13 +14,14 @@ API.interceptors.request.use(//axios请求拦截器
   config => {
     //设置token
     let token = localStorage.token
-    if (token && token !== ' ') {
+    if (token && token !== ' '&& !config.url.includes('/login')) {
       config.headers.token = token
     }
     return config
   },
   error => Promise.reject(error)
 )
+
 API.interceptors.response.use(//axios响应拦截器
   response => {
     //设置token
@@ -39,6 +40,7 @@ API.interceptors.response.use(//axios响应拦截器
     }
     return response
   }, error => {
+    //响应异常信息提示处理
     return Promise.reject(error)
   }
 )

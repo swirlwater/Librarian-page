@@ -47,7 +47,7 @@ export default {
             }
           })
           .catch(failResponse => {
-            console.log(failResponse)
+            this.$Message.error(failResponse.response.data.message)
           })
       }
     },
