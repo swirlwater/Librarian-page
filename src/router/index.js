@@ -68,4 +68,16 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {//路由前置守卫
+  if (to.matched.some(recond => recond.meta.requireLogin)) {
+    if (localStorage.getItem('token')) {
+      next()
+    } else {
+      next({path: '/login'})
+    }
+  } else {
+    next()
+  }
+})
+
 export default router

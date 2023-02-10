@@ -13,16 +13,4 @@ const app = createApp(App)
 
 app.config.globalProperties.$axios = axios //配置axios的全局引用
 
-router.beforeEach((to, from, next) => {//路由前置守卫
-  if (to.matched.some(recond => recond.meta.requireLogin)) {
-    if (localStorage.getItem('token')) {
-      next()
-    } else {
-      next({path: '/login'})
-    }
-  } else {
-    next()
-  }
-})
-
 app.mount('#app')
