@@ -42,7 +42,7 @@
                                 借阅管理
                             </template>
                             <MenuItem name="borrowManage">借阅记录</MenuItem>
-                            <MenuItem name="2-2">查看订单</MenuItem>
+                            <MenuItem name="orderSearch">查看订单</MenuItem>
                         </Submenu>
                         <Submenu name="3">
                             <template #title>
@@ -50,7 +50,7 @@
                                 书籍管理
                             </template>
                             <MenuItem name="bookManage">书籍管理</MenuItem>
-                            <MenuItem name="3-2">订单处理</MenuItem>
+                            <MenuItem name="orderManage">订单处理</MenuItem>
                         </Submenu>
                         <Submenu name="4">
                             <template #title>

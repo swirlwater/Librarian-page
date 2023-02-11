@@ -8,6 +8,8 @@ import BookManageVue from '@/components/BookManageVue'
 import OrderAddVue from '@/components/OrderAddVue'
 import BorrowSearchVue from '@/components/BorrowSearchVue'
 import BorrowManageVue from '@/components/BorrowManageVue'
+import OrderManageVue from '@/components/OrderManageVue'
+import OrderSearchVue from '@/components/OrderSearchVue'
 
 const routes = [
   {
@@ -50,6 +52,14 @@ const routes = [
       {
         path: 'borrowManage',
         component: BorrowManageVue
+      },
+      {
+        path: 'orderManage',
+        component: OrderManageVue
+      },
+      {
+        path: 'orderSearch',
+        component: OrderSearchVue
       }
     ]
   },
@@ -73,7 +83,7 @@ router.beforeEach((to, from, next) => {//路由前置守卫
     if (localStorage.getItem('token')) {
       next()
     } else {
-      next({path: '/login'})
+      next({ path: '/login' })
     }
   } else {
     next()

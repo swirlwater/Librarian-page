@@ -21,7 +21,7 @@
             <Icon type="ios-search" @click="query(username, bookName, author, currentPage)" />
         </template>
         </Input>
-        <Button icon="ios-add" @click="add()">添加借阅</Button>
+        <Button icon="ios-add" @click="add()">添加订单</Button>
     </Space>
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
@@ -54,12 +54,8 @@ export default {
                     key: 'num'
                 },
                 {
-                    title: '借出时间',
-                    key: 'lendTime'
-                },
-                {
-                    title: '归还时间',
-                    key: 'repaidTime'
+                    title: '发起时间',
+                    key: 'launchTime'
                 },
                 {
                     title: '状态',
@@ -113,24 +109,22 @@ export default {
             addBookName: '',
             addAuthor: '',
             addNum: 1,
-            addLendTime: '',
-            addRepaidTime: '',
+            addlaunchTime: '',
             addStation: ''
         }
     },
     methods: {
-        //修改借阅信息
+        //修改订单信息
         update(index) {
             this.addUsername = this.data[index].username
             this.addBookName = this.data[index].bookName
             this.addAuthor = this.data[index].author
             this.addNum = this.data[index].num
-            this.addLendTime = this.data[index].lendTime
-            this.addRepaidTime = this.data[index].repaidTime
+            this.addLaunchTime = this.data[index].launchTime
             this.addStation = this.data[index].station
             this.$Modal.confirm({
                 onOk: () => {
-                    this.$axios.put('/borrow/update', {
+                    this.$axios.put('/order/update', {
                         id: this.data[index].id,
                         username: this.addUsername,
                         bookName: this.addBookName,
@@ -195,23 +189,12 @@ export default {
                             }
                         }),
                         h(Text, {
-                            modelValue: '借出时间：'
+                            modelValue: '发起时间：'
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addLendTime,
-                            placeholder: 'Please enter lendTime...',
-                            'onInput': (event) => {
-                                this.addLendTime = event.target.value;
-                            }
-                        }),
-                        h(Text, {
-                            modelValue: '归还时间：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: this.addRepaidTime,
-                            placeholder: 'Please enter repaidTime...',
+                            modelValue: this.addLaunchTime,
+                            placeholder: 'Please enter launchTime...',
                             'onInput': (event) => {
                                 this.addRepaidTime = event.target.value;
                             }
@@ -231,9 +214,9 @@ export default {
                 }
             })
         },
-        //删除借阅记录
+        //删除订单信息
         remove(index) {
-            this.$axios.delete('/borrow/delete', {
+            this.$axios.delete('/order/delete', {
                 params: {
                     ids: this.data[index].id
                 }
@@ -245,8 +228,8 @@ export default {
             this.data.splice(index, 1);
         },
         query(username, bookName, author, currentPage) {
-            //发送查询借阅请求
-            this.$axios.get('/borrow/query', {
+            //发送查询订单请求
+            this.$axios.get('/order/query', {
                 params: {
                     username: username,
                     bookName: bookName,
@@ -280,9 +263,8 @@ export default {
             this.addBookName = ''
             this.addAuthor = ''
             this.addNum = 1
-            this.addLendTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
-            this.addRepaidTime = ''
-            //打开添加借阅记录对话框
+            this.addLaunchTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
+            //打开添加订单对话框
             this.$Modal.confirm({
                 onOk: () => {
                     this.$axios.post('/borrow/add', {
@@ -290,8 +272,7 @@ export default {
                         bookName: this.addBookName,
                         author: this.addAuthor,
                         num: this.addNum,
-                        lendTime: this.addLendTime,
-                        repaidTime: this.addRepaidTime,
+                        launchTime: this.addLaunchTime,
                         station: this.addStation
                     }).then(() => {
                         this.$Message.success('Added success');
@@ -350,25 +331,14 @@ export default {
                             }
                         }),
                         h(Text, {
-                            modelValue: '借出时间：'
+                            modelValue: '发起时间：'
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addLendTime,
-                            placeholder: 'Please enter lendTime...',
+                            modelValue: this.addLaunchTime,
+                            placeholder: 'Please enter launchTime...',
                             'onInput': (event) => {
-                                this.addLendTime = event.target.value;
-                            }
-                        }),
-                        h(Text, {
-                            modelValue: '归还时间：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: this.addRepaidTime,
-                            placeholder: 'Please enter repaidTime...',
-                            'onInput': (event) => {
-                                this.addRepaidTime = event.target.value;
+                                this.addLaunchTime = event.target.value;
                             }
                         })
                     ]
