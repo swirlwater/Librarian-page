@@ -32,7 +32,7 @@ API.interceptors.response.use(//axios响应拦截器
     if (token && token !== '') {
       localStorage.setItem('token', token)
     }
-    if (response.data.code == 500) {
+    if (response.response.status == 500) {
       this.$router.push({
         path: '/login',
         query: {

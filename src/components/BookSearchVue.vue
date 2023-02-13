@@ -84,20 +84,6 @@ export default {
         }
     },
     methods: {
-        dateformat(args) {
-            let dt = new Date()
-            let y = dt.getFullYear()
-            let m = dt.getMonth() + 1
-            let d = dt.getDate()
-            if (args.toLowerCase() === 'yyyy-MM-dd') {
-                return `${y}-${m}-${d}`
-            } else {
-                let hh = dt.getHours()
-                let mm = dt.getMinutes()
-                let ss = dt.getSeconds()
-                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-            }
-        },
         show(index) {
             //设置借出时间
             let lendTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
