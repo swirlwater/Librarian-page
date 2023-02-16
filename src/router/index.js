@@ -11,6 +11,7 @@ import BorrowManageVue from '@/components/BorrowManageVue'
 import OrderManageVue from '@/components/OrderManageVue'
 import OrderSearchVue from '@/components/OrderSearchVue'
 import RoleManageVue from '@/components/RoleManageVue'
+import UserManageVue from '@/components/UserManageVue'
 
 const routes = [
   {
@@ -65,6 +66,10 @@ const routes = [
       {
         path: 'roleManage',
         component: RoleManageVue
+      },
+      {
+        path: 'userManage',
+        component:UserManageVue
       }
     ]
   },

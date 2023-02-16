@@ -103,6 +103,7 @@ export default {
         update(index) {
             this.addName = this.data[index].name
             this.addContent = this.data[index].content
+            this.addPermissions=[]
             for(let k=0;k<this.data[index].permissions.length;k++){
                 this.addPermissions.push(this.data[index].permissions[k])
             }
@@ -111,6 +112,9 @@ export default {
             }
             this.$Modal.confirm({
                 onOk: () => {
+                    if (this.addPermissions.length==0) {
+                        this.addPermissions.push('')
+                    }
                     this.$axios({
                         method: 'put',
                         url: '/role/update',
@@ -187,7 +191,6 @@ export default {
                                     })
                                 )
                             }
-                            console.log(this.permissionsMap);
                             return checkbox
                         })
                     ]
