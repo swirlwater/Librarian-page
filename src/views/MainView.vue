@@ -50,16 +50,16 @@
                                 书籍管理
                             </template>
                             <MenuItem name="bookManage">书籍管理</MenuItem>
-                            <MenuItem name="orderManage">订单处理</MenuItem>
+                            <MenuItem name="orderManage">订单管理</MenuItem>
                         </Submenu>
                         <Submenu name="4">
                             <template #title>
                                 <Icon type="ios-people"></Icon>
                                 资料管理
                             </template>
-                            <MenuItem name="4-1">用户资料</MenuItem>
-                            <MenuItem name="4-2">用户管理</MenuItem>
-                            <MenuItem name="4-3">职位管理</MenuItem>
+                            <MenuItem name="userSearch">用户资料</MenuItem>
+                            <MenuItem name="userManage">用户管理</MenuItem>
+                            <MenuItem name="roleManage">角色管理</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>

@@ -43,9 +43,9 @@ export default {
               localStorage.setItem('token',successResponse.data.object["token"])
               this.$router.push('/main')
             }
-          })
-          .catch(failResponse => {
-            this.$Message.error(failResponse.response.data.message)
+          }).catch(failResponse => {
+            this.$Message.error(failResponse)
+            console.log(failResponse);
           })
       }
     },
