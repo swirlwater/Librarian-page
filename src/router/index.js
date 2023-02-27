@@ -13,6 +13,7 @@ import OrderSearchVue from '@/components/OrderSearchVue'
 import RoleManageVue from '@/components/RoleManageVue'
 import UserManageVue from '@/components/UserManageVue'
 import UserSearchVue from '@/components/UserSearchVue'
+import ViewUIPlus from 'view-ui-plus'
 
 const routes = [
   {
@@ -94,6 +95,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {//路由前置守卫
+  ViewUIPlus.LoadingBar.start()
   if (to.matched.some(recond => recond.meta.requireLogin)) {
     if (localStorage.getItem('token')) {
       next()
@@ -103,6 +105,10 @@ router.beforeEach((to, from, next) => {//路由前置守卫
   } else {
     next()
   }
+})
+
+router.afterEach( () => {
+  ViewUIPlus.LoadingBar.finish()
 })
 
 export default router

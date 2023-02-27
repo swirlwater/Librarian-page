@@ -1,5 +1,6 @@
 //导入axios
 import axios from 'axios'
+import ViewUIPlus from 'view-ui-plus'
 
 //使用axios下面的create([config])方法创建axios实例，其中config参数为axios最基本的配置信息。
 const API = axios.create({
@@ -9,6 +10,7 @@ const API = axios.create({
 
 API.interceptors.request.use(//axios请求拦截器
   config => {
+    ViewUIPlus.LoadingBar.start()
     if (config.url.includes('/login') || config.url.includes('/register')) {
       localStorage.removeItem('token')
     }
@@ -19,11 +21,15 @@ API.interceptors.request.use(//axios请求拦截器
     }
     return config
   },
-  error => Promise.reject(error)
+  error => {
+    ViewUIPlus.LoadingBar.error()
+    return Promise.reject(error)
+  }
 )
 
 API.interceptors.response.use(//axios响应拦截器
   response => {
+    ViewUIPlus.LoadingBar.finish()
     //设置token
     // let token = response.headers.token
     // if (token && token !== '') {
@@ -40,6 +46,7 @@ API.interceptors.response.use(//axios响应拦截器
     // }
     return response
   }, error => {
+    ViewUIPlus.LoadingBar.error()
     return Promise.reject(error)
   }
 )
