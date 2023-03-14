@@ -67,7 +67,7 @@ export default {
                                 }
                             }, {
                                 default() {
-                                    return '借阅'
+                                    return '申请借阅'
                                 }
                             })
                         ]);
@@ -85,18 +85,14 @@ export default {
     },
     methods: {
         show(index) {
-            //设置借出时间
-            let lendTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
             //打开对话框
             this.$Modal.confirm({
-                title: 'User Info',
                 content: `您是否申请借阅？`,
                 onOk: () => {
-                    this.$axios.post('/borrow/add', {
-                        bookName: this.data[index].bookName,
-                        author: this.data[index].author,
-                        num: 1,
-                        lendTime: lendTime
+                    this.$axios.get('/borrow/requestBorrow', {
+                        params:{
+                            id: this.data[index].id
+                        }
                     }).then(successResponse => {
                         this.$Message.success(successResponse.data.message)
                     }).catch(failResponse => {

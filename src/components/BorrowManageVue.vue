@@ -79,6 +79,20 @@ export default {
                                     marginRight: '5px'
                                 },
                                 onClick: () => {
+                                    this.agree(params.index)
+                                }
+                            }, {
+                                default() {
+                                    return '同意'
+                                }
+                            }),
+                            h(resolveComponent('Button'), {
+                                type: 'primary',
+                                size: 'small',
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                onClick: () => {
                                     this.update(params.index)
                                 }
                             }, {
@@ -229,6 +243,18 @@ export default {
                         }),
                     ]
                 }
+            })
+        },
+        //同意借阅
+        agree(index){
+            this.$axios.get('/borrow/agreeLend', {
+                params: {
+                    id: this.data[index].id
+                }
+            }).then(successResponse => {
+                this.$Message.success(successResponse.data.message)
+            }).catch(failResponse => {
+                this.$Message.error(failResponse.data.message)
             })
         },
         //删除借阅记录

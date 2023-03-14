@@ -63,7 +63,7 @@ export default {
                                 }
                             }, {
                                 default() {
-                                    return '归还'
+                                    return '申请归还'
                                 }
                             })
                         ]);
@@ -81,19 +81,11 @@ export default {
     },
     methods: {
         show(index) {
-            //设置归还
-            let repaidTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
             this.$Modal.confirm({
-                title: 'User Info',
-                content: `您是否归还图书？`,
+                content: `您是否申请归还图书？`,
                 onOk: () => {
-                    this.$axios.put('/borrow/repaid', {
-                        id: this.data[index].id,
-                        bookName: this.data[index].bookName,
-                        author: this.data[index].author,
-                        num: this.data[index].num,
-                        lendTime: this.data[index].lendTime,
-                        repaidTime: repaidTime
+                    this.$axios.put('/borrow/requestRepaid', {
+                        id: this.data[index].id
                     }).then(successResponse => {
                         this.$Message.success(successResponse.data.message)
                     }).catch(failResponse => {
@@ -106,7 +98,24 @@ export default {
             })
         },
         remove(index) {
-            this.data.splice(index, 1);
+            this.$Modal.confirm({
+                content: `您是否确认删除该记录？`,
+                onOk: () => {
+                    this.$axios.delete('/borrow/delete', {
+                        params: {
+                            ids: this.data[index].id
+                        }
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                    }).catch(failResponse => {
+                        console.log(failResponse)
+                    })
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel')
+                }
+            })
+            this.data.splice(index, 1)
         },
         query(bookName, author, currentPage) {
             this.$axios.get('/borrow/queryWithUser', {

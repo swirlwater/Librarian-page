@@ -192,14 +192,22 @@ export default {
         },
         //删除图书
         remove(index) {
-            this.$axios.delete('/book/delete', {
-                params: {
-                    ids: this.data[index].id
+            this.$Model.confirm({
+                content: '您是否确认删除该图书?',
+                onOk: () => {
+                    this.$axios.delete('/book/delete', {
+                        params: {
+                            ids: this.data[index].id
+                        }
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                    }).catch(failResponse => {
+                        this.$Message.error(failResponse.data.message)
+                    })
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel')
                 }
-            }).then(successResponse => {
-                this.$Message.success(successResponse.data.message)
-            }).catch(failResponse => {
-                this.$Message.error(failResponse.data.message)
             })
             this.data.splice(index, 1);
         },

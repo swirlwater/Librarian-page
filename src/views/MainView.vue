@@ -27,40 +27,10 @@
             <Layout>
                 <Sider hide-trigger :style="{ background: '#fff' }">
                     <Menu theme="light" width="auto" @on-select="onselect">
-                        <Submenu name="1">
-                            <template #title>
-                                <Icon type="ios-book"></Icon>
-                                阅读管理
-                            </template>
-                            <MenuItem name="bookSearch">书籍检索</MenuItem>
-                            <MenuItem name="borrowSearch">借阅记录</MenuItem>
-                            <MenuItem name="orderAdd">发起订单</MenuItem>
-                        </Submenu>
-                        <Submenu name="2">
-                            <template #title>
-                                <Icon type="ios-stats"></Icon>
-                                借阅管理
-                            </template>
-                            <MenuItem name="borrowManage">借阅记录</MenuItem>
-                            <MenuItem name="orderSearch">查看订单</MenuItem>
-                        </Submenu>
-                        <Submenu name="3">
-                            <template #title>
-                                <Icon type="ios-paper"></Icon>
-                                书籍管理
-                            </template>
-                            <MenuItem name="bookManage">书籍管理</MenuItem>
-                            <MenuItem name="orderManage">订单管理</MenuItem>
-                        </Submenu>
-                        <Submenu name="4">
-                            <template #title>
-                                <Icon type="ios-people"></Icon>
-                                资料管理
-                            </template>
-                            <MenuItem name="userSearch">用户资料</MenuItem>
-                            <MenuItem name="userManage">用户管理</MenuItem>
-                            <MenuItem name="roleManage">角色管理</MenuItem>
-                        </Submenu>
+                        <MenuItem :name="item.component" v-for="item in components" :key="item">
+                        <Icon :type="item.icon"></Icon>
+                        {{ item.name }}
+                        </MenuItem>
                     </Menu>
                 </Sider>
                 <Layout :style="{ padding: '0 24px 24px' }">
@@ -78,12 +48,26 @@
     </div>
 </template>
 <script>
+import { Icon, MenuItem } from 'view-ui-plus';
+
 export default {
+    data() {
+        return {
+            components: []
+        }
+    },
     mounted() {
         this.$router.push('/main/home')
+        this.$axios.get('/user/permissions', {
+        }).then((successResponse) => {
+            this.components = successResponse.data.object
+        }).catch((failResponse) => {
+            this.$Message.info(failResponse)
+        })
     },
     components: {
-
+        Icon,
+        MenuItem
     },
     methods: {
         onselect(name) {
