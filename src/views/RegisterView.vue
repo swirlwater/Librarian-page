@@ -8,8 +8,9 @@
     <div class="demo-register">
         <Login ref="form" @on-submit="handleSubmit">
             <UserName name="username" value="" />
-            <Email name="mail" />
             <Mobile name="phone" value="" />
+            <Email name="mail" />
+            <Captcha name="captcha" :field="['mail']" @on-get-captcha="handleGetCaptcha"/>
             <Poptip trigger="focus" placement="right" width="240">
                 <Password name="password" :rules="passwordRule" placeholder="至少6位密码，区分大小写"
                     @on-change="handleChangePassword" />
@@ -115,6 +116,9 @@ export default {
         },
         toLogin() {
             this.$router.push('/login')
+        },
+        handleGetCaptcha(){
+            this.$Message.info('获取验证码')
         }
     }
 }

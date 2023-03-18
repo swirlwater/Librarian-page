@@ -24,6 +24,7 @@
 
 <script>
 import { resolveComponent } from 'vue'
+import { Text } from 'view-ui-plus'
 
 export default {
     data() {
@@ -43,7 +44,30 @@ export default {
                 },
                 {
                     title: '借阅时间',
-                    key: 'lendTime'
+                    key: 'lendTime',
+                    render: (h, params) => {
+                        if (params.row.lendTime == null) {
+                            return h(Text, {}, { default() { return '--' } })
+                        }
+                    }
+                },
+                {
+                    title: '归还时间',
+                    key: 'repaidTime',
+                    render: (h, params) => {
+                        if (params.row.repaidTime == null) {
+                            return h(Text, {}, { default() { return '--' } })
+                        }
+                    }
+                },
+                {
+                    title: '状态',
+                    key: 'station',
+                    render: (h, params) => {
+                        if (params.row.station == '0') {
+                            return h(Text, {}, { default() { return '待审核' } })
+                        }
+                    }
                 },
                 {
                     title: '操作',
@@ -51,22 +75,26 @@ export default {
                     width: 180,
                     align: 'center',
                     render: (h, params) => {
-                        return h('div', [
-                            h(resolveComponent('Button'), {
-                                type: 'primary',
-                                size: 'small',
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                onClick: () => {
-                                    this.show(params.index)
-                                }
-                            }, {
-                                default() {
-                                    return '申请归还'
-                                }
-                            })
-                        ]);
+                        if (params.row.station == '0') {
+                            return h(Text, {}, { default() { return '--' } })
+                        } else {
+                            return h('div', [
+                                h(resolveComponent('Button'), {
+                                    type: 'primary',
+                                    size: 'small',
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    onClick: () => {
+                                        this.show(params.index)
+                                    }
+                                }, {
+                                    default() {
+                                        return '归还'
+                                    }
+                                })
+                            ]);
+                        }
                     }
                 }
             ],
@@ -126,7 +154,6 @@ export default {
                 }
             })
                 .then(successResponse => {
-                    console.log(successResponse);
                     this.data = successResponse.data.object.records
                     this.total = successResponse.data.object.total
                 })

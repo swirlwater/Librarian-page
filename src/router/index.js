@@ -9,7 +9,6 @@ import OrderAddVue from '@/components/OrderAddVue'
 import BorrowSearchVue from '@/components/BorrowSearchVue'
 import BorrowManageVue from '@/components/BorrowManageVue'
 import OrderManageVue from '@/components/OrderManageVue'
-import OrderSearchVue from '@/components/OrderSearchVue'
 import RoleManageVue from '@/components/RoleManageVue'
 import UserManageVue from '@/components/UserManageVue'
 import UserSearchVue from '@/components/UserSearchVue'
@@ -60,10 +59,6 @@ const routes = [
       {
         path: 'orderManage',
         component: OrderManageVue
-      },
-      {
-        path: 'orderSearch',
-        component: OrderSearchVue
       },
       {
         path: 'roleManage',

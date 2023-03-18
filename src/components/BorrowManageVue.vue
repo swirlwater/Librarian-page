@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { Input, Text } from 'view-ui-plus'
+import { DatePicker, Dropdown, DropdownItem, DropdownMenu, Icon, Input, Text, TimePicker } from 'view-ui-plus'
 import { resolveComponent } from 'vue'
 
 export default {
@@ -55,15 +55,30 @@ export default {
                 },
                 {
                     title: '借出时间',
-                    key: 'lendTime'
+                    key: 'lendTime',
+                    render: (h, params) => {
+                        if (params.row.lendTime == null) {
+                            return h(Text, {}, { default() { return '--' } })
+                        }
+                    }
                 },
                 {
                     title: '归还时间',
-                    key: 'repaidTime'
+                    key: 'repaidTime',
+                    render: (h, params) => {
+                        if (params.row.lendTime == null) {
+                            return h(Text, {}, { default() { return '--' } })
+                        }
+                    }
                 },
                 {
                     title: '状态',
-                    key: 'station'
+                    key: 'station',
+                    render: (h, params) => {
+                        if (params.row.station == 0) {
+                            return h(Text, {}, { default() { return '待审核' } })
+                        }
+                    }
                 },
                 {
                     title: '操作',
@@ -72,20 +87,6 @@ export default {
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
-                            h(resolveComponent('Button'), {
-                                type: 'primary',
-                                size: 'small',
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                onClick: () => {
-                                    this.agree(params.index)
-                                }
-                            }, {
-                                default() {
-                                    return '同意'
-                                }
-                            }),
                             h(resolveComponent('Button'), {
                                 type: 'primary',
                                 size: 'small',
@@ -211,34 +212,91 @@ export default {
                         h(Text, {
                             modelValue: '借出时间：'
                         }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: this.addLendTime,
-                            placeholder: 'Please enter lendTime...',
-                            'onInput': (event) => {
-                                this.addLendTime = event.target.value;
-                            }
-                        }),
+                        h('div', [
+                            h(DatePicker, {
+                                size: "default",
+                                modelValue: this.addLendTime,
+                                style: 'width: 130px',
+                                placeholder: 'Select date...',
+                                'onInput': (event) => {
+                                    this.addLendTime = event.target.value;
+                                }
+                            }),
+                            h(TimePicker, {
+                                size: "default",
+                                modelValue: this.addLendTime,
+                                style: 'width: 130px',
+                                placeholder: 'Select time...',
+                                'onInput': (event) => {
+                                    this.addLendTime = event.target.value;
+                                }
+                            }),
+                        ]),
                         h(Text, {
                             modelValue: '归还时间：'
                         }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: this.addRepaidTime,
-                            placeholder: 'Please enter repaidTime...',
-                            'onInput': (event) => {
-                                this.addRepaidTime = event.target.value;
-                            }
-                        }),
+                        h('div', [
+                            h(DatePicker, {
+                                size: "default",
+                                modelValue: this.addRepaidTime,
+                                style: 'width: 130px',
+                                placeholder: 'Select date...',
+                                'onInput': (event) => {
+                                    this.addLendTime = event.target.value;
+                                }
+                            }),
+                            h(TimePicker, {
+                                size: "default",
+                                modelValue: this.addRepaidTime,
+                                style: 'width: 130px',
+                                placeholder: 'Select time...',
+                                'onInput': (event) => {
+                                    this.addLendTime = event.target.value;
+                                }
+                            }),
+                        ]),
                         h(Text, {
                             modelValue: '状态：'
                         }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: this.addStation,
-                            placeholder: 'Please enter station...',
-                            'onInput': (event) => {
-                                this.addStation = event.target.value;
+                        h(Dropdown, {
+                            placement: 'bottom-start'
+                        }, {
+                            default() {
+                                return h('div', [
+                                    h('a', {
+                                        href: 'javascript:void(0)',
+                                        color: '#515a6e'
+                                    }, {
+                                        default() {
+                                            return '下拉列表'
+                                        }
+                                    }),
+                                    h(Icon, {
+                                        type: 'ios-arrow-down'
+                                    }, {
+                                        default() {
+                                            return ''
+                                        }
+                                    })
+                                ])
+                            },
+                            list() {
+                                return h(DropdownMenu, null, {
+                                    default() {
+                                        return [
+                                            h(DropdownItem, null, {
+                                                default() {
+                                                    return '驴打滚'
+                                                }
+                                            }),
+                                            h(DropdownItem, null, {
+                                                default() {
+                                                    return '炸酱面'
+                                                }
+                                            })
+                                        ]
+                                    }
+                                })
                             }
                         }),
                     ]
@@ -246,7 +304,7 @@ export default {
             })
         },
         //同意借阅
-        agree(index){
+        agree(index) {
             this.$axios.get('/borrow/agreeLend', {
                 params: {
                     id: this.data[index].id

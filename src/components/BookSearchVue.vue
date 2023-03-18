@@ -55,6 +55,7 @@ export default {
                     width: 180,
                     align: 'center',
                     render: (h, params) => {
+                        console.log(params.row.author)
                         return h('div', [
                             h(resolveComponent('Button'), {
                                 type: 'primary',
@@ -67,7 +68,7 @@ export default {
                                 }
                             }, {
                                 default() {
-                                    return '申请借阅'
+                                    return '借阅'
                                 }
                             })
                         ]);

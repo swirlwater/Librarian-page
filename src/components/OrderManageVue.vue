@@ -59,7 +59,14 @@ export default {
                 },
                 {
                     title: '状态',
-                    key: 'station'
+                    key: 'station',
+                    render: (h,params)=>{
+                        if(params.row.station=='0'){
+                            return h(Text,{},{default(){return '未处理'}})
+                        }else{
+                            return h(Text,{},{default(){return '已处理'}})
+                        }
+                    }
                 },
                 {
                     title: '操作',

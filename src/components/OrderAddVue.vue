@@ -57,7 +57,12 @@ export default {
                 },
                 {
                     title: '状态',
-                    key: 'station'
+                    key: 'station',
+                    render: (h,params)=>{
+                        if(params.row.station=='0'){
+                            return h(Text,{},{default(){return '审核中'}})
+                        }
+                    }
                 },
                 {
                     title: '操作',
