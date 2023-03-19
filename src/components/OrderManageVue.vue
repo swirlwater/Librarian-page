@@ -60,11 +60,11 @@ export default {
                 {
                     title: '状态',
                     key: 'station',
-                    render: (h,params)=>{
-                        if(params.row.station=='0'){
-                            return h(Text,{},{default(){return '未处理'}})
-                        }else{
-                            return h(Text,{},{default(){return '已处理'}})
+                    render: (h, params) => {
+                        if (params.row.station == '0') {
+                            return h(Text, {}, { default() { return '未处理' } })
+                        } else {
+                            return h(Text, {}, { default() { return '已处理' } })
                         }
                     }
                 },
@@ -111,34 +111,28 @@ export default {
             username: '',
             bookName: '',
             author: '',
-            total: 1,
-            addUsername: '',
-            addBookName: '',
-            addAuthor: '',
-            addNum: 1,
-            addlaunchTime: '',
-            addStation: ''
+            total: 1
         }
     },
     methods: {
         //修改订单信息
         update(index) {
-            this.addUsername = this.data[index].username
-            this.addBookName = this.data[index].bookName
-            this.addAuthor = this.data[index].author
-            this.addNum = this.data[index].num
-            this.addLaunchTime = this.data[index].launchTime
-            this.addStation = this.data[index].station
+            let username = this.data[index].username
+            let bookName = this.data[index].bookName
+            let author = this.data[index].author
+            let num = this.data[index].num
+            let launchTime = this.data[index].launchTime
+            let station = this.data[index].station
             this.$Modal.confirm({
                 onOk: () => {
                     this.$axios.put('/order/update', {
                         id: this.data[index].id,
-                        username: this.addUsername,
-                        bookName: this.addBookName,
-                        author: this.addAuthor,
-                        num: this.addNum,
-                        lendTime: this.addLendTime,
-                        repaidTime: this.addRepaidTime
+                        username: username,
+                        bookName: bookName,
+                        author: author,
+                        num: num,
+                        launchTime: launchTime,
+                        station: station
                     }).then(() => {
                         this.$Message.success('Updated success')
                     }).catch(() => {
@@ -156,10 +150,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addUsername,
+                            modelValue: username,
                             placeholder: 'Please enter username...',
                             'onInput': (event) => {
-                                this.addUsername = event.target.value;
+                                username = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -167,10 +161,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addBookName,
+                            modelValue: bookName,
                             placeholder: 'Please enter bookname...',
                             'onInput': (event) => {
-                                this.addBookName = event.target.value;
+                                bookName = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -178,10 +172,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addAuthor,
+                            modelValue: author,
                             placeholder: 'Please enter author...',
                             'onInput': (event) => {
-                                this.addAuthor = event.target.value;
+                                author = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -189,10 +183,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addNum,
+                            modelValue: num,
                             placeholder: 'Please enter num...',
                             'onInput': (event) => {
-                                this.addNum = event.target.value;
+                                num = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -200,10 +194,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addLaunchTime,
+                            modelValue: launchTime,
                             placeholder: 'Please enter launchTime...',
                             'onInput': (event) => {
-                                this.addRepaidTime = event.target.value;
+                                launchTime = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -211,10 +205,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addStation,
+                            modelValue: station,
                             placeholder: 'Please enter station...',
                             'onInput': (event) => {
-                                this.addStation = event.target.value;
+                                station = event.target.value;
                             }
                         }),
                     ]
@@ -252,21 +246,22 @@ export default {
         },
         add() {
             //数据初始化
-            this.addUsername = ''
-            this.addBookName = ''
-            this.addAuthor = ''
-            this.addNum = 1
-            this.addLaunchTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
+            let username = ''
+            let bookName = ''
+            let author = ''
+            let num = 1
+            let launchTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
+            let station='0'
             //打开添加订单对话框
             this.$Modal.confirm({
                 onOk: () => {
                     this.$axios.post('/borrow/add', {
-                        username: this.addUsername,
-                        bookName: this.addBookName,
-                        author: this.addAuthor,
-                        num: this.addNum,
-                        launchTime: this.addLaunchTime,
-                        station: this.addStation
+                        username: username,
+                        bookName: bookName,
+                        author: author,
+                        num: num,
+                        launchTime: launchTime,
+                        station: station
                     }).then(() => {
                         this.$Message.success('Added success');
                     }).catch(() => {
@@ -284,10 +279,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addUsername,
+                            modelValue: username,
                             placeholder: 'Please enter username...',
                             'onInput': (event) => {
-                                this.addUsername = event.target.value;
+                                username = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -295,10 +290,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addBookName,
+                            modelValue: bookName,
                             placeholder: 'Please enter bookname...',
                             'onInput': (event) => {
-                                this.addBookName = event.target.value;
+                                bookName = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -306,10 +301,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addAuthor,
+                            modelValue: author,
                             placeholder: 'Please enter author...',
                             'onInput': (event) => {
-                                this.addAuthor = event.target.value;
+                                author = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -317,10 +312,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addNum,
+                            modelValue: num,
                             placeholder: 'Please enter num...',
                             'onInput': (event) => {
-                                this.addNum = event.target.value;
+                                num = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -328,10 +323,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addLaunchTime,
+                            modelValue: launchTime,
                             placeholder: 'Please enter launchTime...',
                             'onInput': (event) => {
-                                this.addLaunchTime = event.target.value;
+                                this.launchTime = event.target.value;
                             }
                         })
                     ]

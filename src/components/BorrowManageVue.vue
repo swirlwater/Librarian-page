@@ -124,35 +124,38 @@ export default {
             bookName: '',
             author: '',
             total: 1,
-            addUsername: '',
-            addBookName: '',
-            addAuthor: '',
-            addNum: 1,
-            addLendTime: '',
-            addRepaidTime: '',
-            addStation: ''
         }
     },
     methods: {
         //修改借阅信息
         update(index) {
-            this.addUsername = this.data[index].username
-            this.addBookName = this.data[index].bookName
-            this.addAuthor = this.data[index].author
-            this.addNum = this.data[index].num
-            this.addLendTime = this.data[index].lendTime
-            this.addRepaidTime = this.data[index].repaidTime
-            this.addStation = this.data[index].station
+            let username = this.data[index].username
+            let bookName = this.data[index].bookName
+            let author = this.data[index].author
+            let num = this.data[index].num
+            let lendTime = this.data[index].lendTime
+            let repaidTime = this.data[index].repaidTime
+            let station = this.data[index].station
+            let dropdown = ''
+            if (station == '0') {
+                dropdown = '申请借阅'
+            } else if (station == '1') {
+                dropdown = '借阅中'
+            } else if (station == '2') {
+                dropdown = '申请归还'
+            } else {
+                dropdown = '已归还'
+            }
             this.$Modal.confirm({
                 onOk: () => {
                     this.$axios.put('/borrow/update', {
                         id: this.data[index].id,
-                        username: this.addUsername,
-                        bookName: this.addBookName,
-                        author: this.addAuthor,
-                        num: this.addNum,
-                        lendTime: this.addLendTime,
-                        repaidTime: this.addRepaidTime
+                        username: username,
+                        bookName: bookName,
+                        author: author,
+                        num: num,
+                        lendTime: lendTime,
+                        repaidTime: repaidTime
                     }).then(() => {
                         this.$Message.success('Updated success')
                     }).catch(() => {
@@ -170,10 +173,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addUsername,
+                            modelValue: username,
                             placeholder: 'Please enter username...',
                             'onInput': (event) => {
-                                this.addUsername = event.target.value;
+                                username = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -181,10 +184,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addBookName,
+                            modelValue: bookName,
                             placeholder: 'Please enter bookname...',
                             'onInput': (event) => {
-                                this.addBookName = event.target.value;
+                                bookName = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -192,10 +195,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addAuthor,
+                            modelValue: author,
                             placeholder: 'Please enter author...',
                             'onInput': (event) => {
-                                this.addAuthor = event.target.value;
+                                author = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -203,10 +206,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addNum,
+                            modelValue: num,
                             placeholder: 'Please enter num...',
                             'onInput': (event) => {
-                                this.addNum = event.target.value;
+                                num = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -215,20 +218,20 @@ export default {
                         h('div', [
                             h(DatePicker, {
                                 size: "default",
-                                modelValue: this.addLendTime,
+                                modelValue: lendTime,
                                 style: 'width: 130px',
                                 placeholder: 'Select date...',
                                 'onInput': (event) => {
-                                    this.addLendTime = event.target.value;
+                                    lendTime = event.target.value;
                                 }
                             }),
                             h(TimePicker, {
                                 size: "default",
-                                modelValue: this.addLendTime,
+                                modelValue: lendTime,
                                 style: 'width: 130px',
                                 placeholder: 'Select time...',
                                 'onInput': (event) => {
-                                    this.addLendTime = event.target.value;
+                                    lendTime = event.target.value;
                                 }
                             }),
                         ]),
@@ -238,20 +241,20 @@ export default {
                         h('div', [
                             h(DatePicker, {
                                 size: "default",
-                                modelValue: this.addRepaidTime,
+                                modelValue: repaidTime,
                                 style: 'width: 130px',
                                 placeholder: 'Select date...',
                                 'onInput': (event) => {
-                                    this.addLendTime = event.target.value;
+                                    repaidTime = event.target.value;
                                 }
                             }),
                             h(TimePicker, {
                                 size: "default",
-                                modelValue: this.addRepaidTime,
+                                modelValue: repaidTime,
                                 style: 'width: 130px',
                                 placeholder: 'Select time...',
                                 'onInput': (event) => {
-                                    this.addLendTime = event.target.value;
+                                    repaidTime = event.target.value;
                                 }
                             }),
                         ]),
@@ -259,16 +262,16 @@ export default {
                             modelValue: '状态：'
                         }),
                         h(Dropdown, {
-                            placement: 'bottom-start'
+                            placement: 'bottom-start',
                         }, {
                             default() {
                                 return h('div', [
                                     h('a', {
                                         href: 'javascript:void(0)',
-                                        color: '#515a6e'
+                                        color: '#515a6e',
                                     }, {
                                         default() {
-                                            return '下拉列表'
+                                            return dropdown
                                         }
                                     }),
                                     h(Icon, {
@@ -284,14 +287,40 @@ export default {
                                 return h(DropdownMenu, null, {
                                     default() {
                                         return [
-                                            h(DropdownItem, null, {
+                                            h(DropdownItem, {
+                                                onClick() {
+                                                    dropdown = '申请借阅'
+                                                }
+                                            }, {
                                                 default() {
-                                                    return '驴打滚'
+                                                    return '申请借阅'
                                                 }
                                             }),
-                                            h(DropdownItem, null, {
+                                            h(DropdownItem, {
+                                                onClick() {
+                                                    dropdown = '借阅中'
+                                                }
+                                            }, {
                                                 default() {
-                                                    return '炸酱面'
+                                                    return '借阅中'
+                                                }
+                                            }),
+                                            h(DropdownItem, {
+                                                onClick() {
+                                                    dropdown = '申请归还'
+                                                }
+                                            }, {
+                                                default() {
+                                                    return '申请归还'
+                                                }
+                                            }),
+                                            h(DropdownItem, {
+                                                onClick() {
+                                                    dropdown = '已归还'
+                                                }
+                                            }, {
+                                                default() {
+                                                    return '已归还'
                                                 }
                                             })
                                         ]
@@ -346,23 +375,24 @@ export default {
         },
         add() {
             //数据初始化
-            this.addUsername = ''
-            this.addBookName = ''
-            this.addAuthor = ''
-            this.addNum = 1
-            this.addLendTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
-            this.addRepaidTime = ''
+            let username = ''
+            let bookName = ''
+            let author = ''
+            let num = 1
+            let lendTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
+            let repaidTime = ''
+            let station = '0'
             //打开添加借阅记录对话框
             this.$Modal.confirm({
                 onOk: () => {
                     this.$axios.post('/borrow/add', {
-                        username: this.addUsername,
-                        bookName: this.addBookName,
-                        author: this.addAuthor,
-                        num: this.addNum,
-                        lendTime: this.addLendTime,
-                        repaidTime: this.addRepaidTime,
-                        station: this.addStation
+                        username: username,
+                        bookName: bookName,
+                        author: author,
+                        num: num,
+                        lendTime: lendTime,
+                        repaidTime: repaidTime,
+                        station: station
                     }).then(() => {
                         this.$Message.success('Added success');
                     }).catch(() => {
@@ -380,10 +410,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addUsername,
+                            modelValue: username,
                             placeholder: 'Please enter username...',
                             'onInput': (event) => {
-                                this.addUsername = event.target.value;
+                                username = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -391,10 +421,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addBookName,
+                            modelValue: bookName,
                             placeholder: 'Please enter bookname...',
                             'onInput': (event) => {
-                                this.addBookName = event.target.value;
+                                bookName = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -402,10 +432,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addAuthor,
+                            modelValue: author,
                             placeholder: 'Please enter author...',
                             'onInput': (event) => {
-                                this.addAuthor = event.target.value;
+                                author = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -413,10 +443,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addNum,
+                            modelValue: num,
                             placeholder: 'Please enter num...',
                             'onInput': (event) => {
-                                this.addNum = event.target.value;
+                                num = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -424,10 +454,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addLendTime,
+                            modelValue: lendTime,
                             placeholder: 'Please enter lendTime...',
                             'onInput': (event) => {
-                                this.addLendTime = event.target.value;
+                                lendTime = event.target.value;
                             }
                         }),
                         h(Text, {
@@ -435,10 +465,10 @@ export default {
                         }),
                         h(Input, {
                             size: "default",
-                            modelValue: this.addRepaidTime,
+                            modelValue: repaidTime,
                             placeholder: 'Please enter repaidTime...',
                             'onInput': (event) => {
-                                this.addRepaidTime = event.target.value;
+                                repaidTime = event.target.value;
                             }
                         })
                     ]
