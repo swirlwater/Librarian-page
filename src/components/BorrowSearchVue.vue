@@ -47,7 +47,7 @@ export default {
                     key: 'lendTime',
                     render: (h, params) => {
                         if (params.row.lendTime == null) {
-                            return h(Text, {}, { default() { return '--' } })
+                            return h(Text, null, { default() { return '--' } })
                         }
                     }
                 },
@@ -56,7 +56,7 @@ export default {
                     key: 'repaidTime',
                     render: (h, params) => {
                         if (params.row.repaidTime == null) {
-                            return h(Text, {}, { default() { return '--' } })
+                            return h(Text, null, { default() { return '--' } })
                         }
                     }
                 },
@@ -65,7 +65,7 @@ export default {
                     key: 'station',
                     render: (h, params) => {
                         if (params.row.station == '0') {
-                            return h(Text, {}, { default() { return '待审核' } })
+                            return h(Text, null, { default() { return '待审核' } })
                         }
                     }
                 },
@@ -76,7 +76,7 @@ export default {
                     align: 'center',
                     render: (h, params) => {
                         if (params.row.station == '0') {
-                            return h(Text, {}, { default() { return '--' } })
+                            return h(Text, null, { default() { return '--' } })
                         } else {
                             return h('div', [
                                 h(resolveComponent('Button'), {

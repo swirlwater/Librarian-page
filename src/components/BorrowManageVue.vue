@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { DatePicker, Dropdown, DropdownItem, DropdownMenu, Icon, Input, Text, TimePicker } from 'view-ui-plus'
+import { DatePicker, Dropdown, DropdownItem, DropdownMenu, Icon, Input, Space, Text } from 'view-ui-plus'
 import { resolveComponent } from 'vue'
 
 export default {
@@ -58,7 +58,9 @@ export default {
                     key: 'lendTime',
                     render: (h, params) => {
                         if (params.row.lendTime == null) {
-                            return h(Text, {}, { default() { return '--' } })
+                            return h(Text, null, { default() { return '--' } })
+                        } else {
+                            return h(Text, null, { default() { return params.row.lendTime } })
                         }
                     }
                 },
@@ -66,8 +68,10 @@ export default {
                     title: '归还时间',
                     key: 'repaidTime',
                     render: (h, params) => {
-                        if (params.row.lendTime == null) {
-                            return h(Text, {}, { default() { return '--' } })
+                        if (params.row.repaidTime == null) {
+                            return h(Text, null, { default() { return '--' } })
+                        }else{
+                            return h(Text, null, { default() { return params.row.repaidTime } })
                         }
                     }
                 },
@@ -75,8 +79,14 @@ export default {
                     title: '状态',
                     key: 'station',
                     render: (h, params) => {
-                        if (params.row.station == 0) {
-                            return h(Text, {}, { default() { return '待审核' } })
+                        if (params.row.station == '0') {
+                            return h(Text, null, { default() { return '申请借阅' } })
+                        } else if (params.row.station == '1') {
+                            return h(Text, null, { default() { return '借阅中' } })
+                        } else if (params.row.station == '2') {
+                            return h(Text, null, { default() { return '申请归还' } })
+                        } else {
+                            return h(Text, null, { default() { return '已归还' } })
                         }
                     }
                 },
@@ -155,7 +165,8 @@ export default {
                         author: author,
                         num: num,
                         lendTime: lendTime,
-                        repaidTime: repaidTime
+                        repaidTime: repaidTime,
+                        station: station
                     }).then(() => {
                         this.$Message.success('Updated success')
                     }).catch(() => {
@@ -212,122 +223,105 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h(Text, {
-                            modelValue: '借出时间：'
-                        }),
-                        h('div', [
+                        h(Space, [
+                            h(Text, {
+                                modelValue: '借出时间：'
+                            }),
                             h(DatePicker, {
-                                size: "default",
+                                type: 'datetime',
                                 modelValue: lendTime,
-                                style: 'width: 130px',
-                                placeholder: 'Select date...',
-                                'onInput': (event) => {
-                                    lendTime = event.target.value;
+                                'onOnChange': (date) => {
+                                    lendTime = date
                                 }
-                            }),
-                            h(TimePicker, {
-                                size: "default",
-                                modelValue: lendTime,
-                                style: 'width: 130px',
-                                placeholder: 'Select time...',
-                                'onInput': (event) => {
-                                    lendTime = event.target.value;
-                                }
-                            }),
+                            })
                         ]),
-                        h(Text, {
-                            modelValue: '归还时间：'
-                        }),
-                        h('div', [
+                        h(Space, [
+                            h(Text, {
+                                modelValue: '归还时间：'
+                            }),
                             h(DatePicker, {
-                                size: "default",
+                                type: 'datetime',
                                 modelValue: repaidTime,
-                                style: 'width: 130px',
-                                placeholder: 'Select date...',
-                                'onInput': (event) => {
-                                    repaidTime = event.target.value;
+                                'onOnChange': (date) => {
+                                    repaidTime = date
                                 }
-                            }),
-                            h(TimePicker, {
-                                size: "default",
-                                modelValue: repaidTime,
-                                style: 'width: 130px',
-                                placeholder: 'Select time...',
-                                'onInput': (event) => {
-                                    repaidTime = event.target.value;
-                                }
-                            }),
+                            })
                         ]),
-                        h(Text, {
-                            modelValue: '状态：'
-                        }),
-                        h(Dropdown, {
-                            placement: 'bottom-start',
-                        }, {
-                            default() {
-                                return h('div', [
-                                    h('a', {
-                                        href: 'javascript:void(0)',
-                                        color: '#515a6e',
-                                    }, {
+                        h(Space, [
+                            h(Text, {
+                                modelValue: '状态：'
+                            }),
+                            h(Dropdown, {
+                                placement: 'bottom-start',
+                            }, {
+                                default() {
+                                    return h('div', [
+                                        h('span', {
+                                            color: '#515a6e'
+                                        }, {
+                                            default() {
+                                                return dropdown
+                                            }
+                                        }),
+                                        h(Icon, {
+                                            type: 'ios-arrow-down'
+                                        }, {
+                                            default() {
+                                                return ''
+                                            }
+                                        })
+                                    ])
+                                },
+                                list() {
+                                    return h(DropdownMenu, null, {
                                         default() {
-                                            return dropdown
-                                        }
-                                    }),
-                                    h(Icon, {
-                                        type: 'ios-arrow-down'
-                                    }, {
-                                        default() {
-                                            return ''
+                                            return [
+                                                h(DropdownItem, {
+                                                    onClick() {
+                                                        dropdown = '申请借阅'
+                                                        station='0'
+                                                    }
+                                                }, {
+                                                    default() {
+                                                        return '申请借阅'
+                                                    }
+                                                }),
+                                                h(DropdownItem, {
+                                                    onClick() {
+                                                        station='1'
+                                                        dropdown = '借阅中'
+                                                    }
+                                                }, {
+                                                    default() {
+                                                        return '借阅中'
+                                                    }
+                                                }),
+                                                h(DropdownItem, {
+                                                    onClick() {
+                                                        station='2'
+                                                        dropdown = '申请归还'
+                                                    }
+                                                }, {
+                                                    default() {
+                                                        return '申请归还'
+                                                    }
+                                                }),
+                                                h(DropdownItem, {
+                                                    onClick() {
+                                                        station='3'
+                                                        dropdown = '已归还'
+                                                    }
+                                                }, {
+                                                    default() {
+                                                        return '已归还'
+                                                    }
+                                                })
+                                            ]
                                         }
                                     })
-                                ])
-                            },
-                            list() {
-                                return h(DropdownMenu, null, {
-                                    default() {
-                                        return [
-                                            h(DropdownItem, {
-                                                onClick() {
-                                                    dropdown = '申请借阅'
-                                                }
-                                            }, {
-                                                default() {
-                                                    return '申请借阅'
-                                                }
-                                            }),
-                                            h(DropdownItem, {
-                                                onClick() {
-                                                    dropdown = '借阅中'
-                                                }
-                                            }, {
-                                                default() {
-                                                    return '借阅中'
-                                                }
-                                            }),
-                                            h(DropdownItem, {
-                                                onClick() {
-                                                    dropdown = '申请归还'
-                                                }
-                                            }, {
-                                                default() {
-                                                    return '申请归还'
-                                                }
-                                            }),
-                                            h(DropdownItem, {
-                                                onClick() {
-                                                    dropdown = '已归还'
-                                                }
-                                            }, {
-                                                default() {
-                                                    return '已归还'
-                                                }
-                                            })
-                                        ]
-                                    }
-                                })
-                            }
-                        }),
+                                }
+                            }),
+                        ])
                     ]
                 }
             })
@@ -449,28 +443,32 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h(Text, {
-                            modelValue: '借出时间：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: lendTime,
-                            placeholder: 'Please enter lendTime...',
-                            'onInput': (event) => {
-                                lendTime = event.target.value;
-                            }
-                        }),
-                        h(Text, {
-                            modelValue: '归还时间：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: repaidTime,
-                            placeholder: 'Please enter repaidTime...',
-                            'onInput': (event) => {
-                                repaidTime = event.target.value;
-                            }
-                        })
+                        h('div', [
+                            h(Text, {
+                                modelValue: '借出时间：'
+                            }),
+                            h(Input, {
+                                size: "default",
+                                modelValue: lendTime,
+                                placeholder: 'Please enter lendTime...',
+                                'onInput': (event) => {
+                                    lendTime = event.target.value;
+                                }
+                            })
+                        ]),
+                        h('div', [
+                            h(Text, {
+                                modelValue: '归还时间：'
+                            }),
+                            h(Input, {
+                                size: "default",
+                                modelValue: repaidTime,
+                                placeholder: 'Please enter repaidTime...',
+                                'onInput': (event) => {
+                                    repaidTime = event.target.value;
+                                }
+                            })
+                        ])
                     ]
                 }
             })
