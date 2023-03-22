@@ -1,9 +1,10 @@
 <template>
     <div class="layout">
         <Layout>
-            <Header>
-                <Menu mode="horizontal" theme="dark" active-name="1">
+            <Header style="background-color: #fff; border-bottom: #f5f7f9 solid 1px;">
+                <Menu mode="horizontal" theme="light" active-name="1" style="width: 100%;">
                     <div class="layout-logo"></div>
+                    <div class="layout-title">图书馆管理系统</div>
                     <div class="layout-nav">
                         <MenuItem name="1">
                         <Icon type="ios-navigate"></Icon>
@@ -66,9 +67,9 @@ export default {
         })
     },
     components: {
-        Icon,
-        MenuItem
-    },
+    Icon,
+    MenuItem
+},
     methods: {
         onselect(name) {
             this.$router.push('/main/' + name)
@@ -86,10 +87,21 @@ export default {
 }
 
 .layout-logo {
-    width: 100px;
+    width: 35px;
     height: 30px;
-    background: #5b6270;
+    background: url('@/assets/librarian.png') no-repeat;
+    background-size: 30px 30px;
     border-radius: 3px;
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
+}
+
+.layout-title {
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
     float: left;
     position: relative;
     top: 15px;

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { Input, Text } from 'view-ui-plus'
+import { DatePicker, Dropdown, DropdownItem, DropdownMenu, Icon, Input, Space, Text } from 'view-ui-plus'
 import { resolveComponent } from 'vue'
 
 export default {
@@ -123,6 +123,12 @@ export default {
             let num = this.data[index].num
             let launchTime = this.data[index].launchTime
             let station = this.data[index].station
+            let dropdown=''
+            if(station=='0'){
+                dropdown='未处理'
+            }else{
+                dropdown='已处理'
+            }
             this.$Modal.confirm({
                 onOk: () => {
                     this.$axios.put('/order/update', {
@@ -189,28 +195,73 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h(Text, {
-                            modelValue: '发起时间：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: launchTime,
-                            placeholder: 'Please enter launchTime...',
-                            'onInput': (event) => {
-                                launchTime = event.target.value;
-                            }
-                        }),
-                        h(Text, {
-                            modelValue: '状态：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: station,
-                            placeholder: 'Please enter station...',
-                            'onInput': (event) => {
-                                station = event.target.value;
-                            }
-                        }),
+                        h(Space, [
+                            h(Text, {
+                                modelValue: '发起时间：'
+                            }),
+                            h(DatePicker, {
+                                type: 'datetime',
+                                modelValue: launchTime,
+                                'onOnChange': (date) => {
+                                    launchTime = date
+                                }
+                            })
+                        ]),
+                        h(Space, [
+                            h(Text, {
+                                modelValue: '状态：'
+                            }),
+                            h(Dropdown, {
+                                placement: 'bottom-start',
+                            }, {
+                                default() {
+                                    return h('div', [
+                                        h('span', {
+                                            color: '#515a6e'
+                                        }, {
+                                            default() {
+                                                return dropdown
+                                            }
+                                        }),
+                                        h(Icon, {
+                                            type: 'ios-arrow-down'
+                                        }, {
+                                            default() {
+                                                return ''
+                                            }
+                                        })
+                                    ])
+                                },
+                                list() {
+                                    return h(DropdownMenu, null, {
+                                        default() {
+                                            return [
+                                                h(DropdownItem, {
+                                                    onClick() {
+                                                        dropdown = '未处理'
+                                                        station='0'
+                                                    }
+                                                }, {
+                                                    default() {
+                                                        return '未处理'
+                                                    }
+                                                }),
+                                                h(DropdownItem, {
+                                                    onClick() {
+                                                        station='1'
+                                                        dropdown = '已处理'
+                                                    }
+                                                }, {
+                                                    default() {
+                                                        return '已处理'
+                                                    }
+                                                })
+                                            ]
+                                        }
+                                    })
+                                }
+                            }),
+                        ])
                     ]
                 }
             })
