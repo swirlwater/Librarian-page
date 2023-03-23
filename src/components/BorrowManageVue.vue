@@ -70,7 +70,7 @@ export default {
                     render: (h, params) => {
                         if (params.row.repaidTime == null) {
                             return h(Text, null, { default() { return '--' } })
-                        }else{
+                        } else {
                             return h(Text, null, { default() { return params.row.repaidTime } })
                         }
                     }
@@ -223,105 +223,117 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h(Space, [
-                            h(Text, {
-                                modelValue: '借出时间：'
-                            }),
-                            h(DatePicker, {
-                                type: 'datetime',
-                                modelValue: lendTime,
-                                'onOnChange': (date) => {
-                                    lendTime = date
-                                }
-                            })
-                        ]),
-                        h(Space, [
-                            h(Text, {
-                                modelValue: '归还时间：'
-                            }),
-                            h(DatePicker, {
-                                type: 'datetime',
-                                modelValue: repaidTime,
-                                'onOnChange': (date) => {
-                                    repaidTime = date
-                                }
-                            })
-                        ]),
-                        h(Space, [
-                            h(Text, {
-                                modelValue: '状态：'
-                            }),
-                            h(Dropdown, {
-                                placement: 'bottom-start',
-                            }, {
-                                default() {
-                                    return h('div', [
-                                        h('span', {
-                                            color: '#515a6e'
-                                        }, {
-                                            default() {
-                                                return dropdown
-                                            }
-                                        }),
-                                        h(Icon, {
-                                            type: 'ios-arrow-down'
-                                        }, {
-                                            default() {
-                                                return ''
-                                            }
-                                        })
-                                    ])
-                                },
-                                list() {
-                                    return h(DropdownMenu, null, {
-                                        default() {
-                                            return [
-                                                h(DropdownItem, {
-                                                    onClick() {
-                                                        dropdown = '申请借阅'
-                                                        station='0'
-                                                    }
-                                                }, {
-                                                    default() {
-                                                        return '申请借阅'
-                                                    }
-                                                }),
-                                                h(DropdownItem, {
-                                                    onClick() {
-                                                        station='1'
-                                                        dropdown = '借阅中'
-                                                    }
-                                                }, {
-                                                    default() {
-                                                        return '借阅中'
-                                                    }
-                                                }),
-                                                h(DropdownItem, {
-                                                    onClick() {
-                                                        station='2'
-                                                        dropdown = '申请归还'
-                                                    }
-                                                }, {
-                                                    default() {
-                                                        return '申请归还'
-                                                    }
-                                                }),
-                                                h(DropdownItem, {
-                                                    onClick() {
-                                                        station='3'
-                                                        dropdown = '已归还'
-                                                    }
-                                                }, {
-                                                    default() {
-                                                        return '已归还'
-                                                    }
-                                                })
-                                            ]
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '借出时间：'
+                                    }),
+                                    h(DatePicker, {
+                                        type: 'datetime',
+                                        modelValue: lendTime,
+                                        'onOnChange': (date) => {
+                                            lendTime = date
                                         }
                                     })
-                                }
-                            }),
-                        ])
+                                ]
+                            }
+                        }),
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '归还时间：'
+                                    }),
+                                    h(DatePicker, {
+                                        type: 'datetime',
+                                        modelValue: repaidTime,
+                                        'onOnChange': (date) => {
+                                            repaidTime = date
+                                        }
+                                    })
+                                ]
+                            }
+                        }),
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '状态：'
+                                    }),
+                                    h(Dropdown, {
+                                        placement: 'bottom-start',
+                                    }, {
+                                        default() {
+                                            return h('div', [
+                                                h('span', {
+                                                    color: '#515a6e'
+                                                }, {
+                                                    default() {
+                                                        return dropdown
+                                                    }
+                                                }),
+                                                h(Icon, {
+                                                    type: 'ios-arrow-down'
+                                                }, {
+                                                    default() {
+                                                        return ''
+                                                    }
+                                                })
+                                            ])
+                                        },
+                                        list() {
+                                            return h(DropdownMenu, null, {
+                                                default() {
+                                                    return [
+                                                        h(DropdownItem, {
+                                                            onClick() {
+                                                                dropdown = '申请借阅'
+                                                                station = '0'
+                                                            }
+                                                        }, {
+                                                            default() {
+                                                                return '申请借阅'
+                                                            }
+                                                        }),
+                                                        h(DropdownItem, {
+                                                            onClick() {
+                                                                station = '1'
+                                                                dropdown = '借阅中'
+                                                            }
+                                                        }, {
+                                                            default() {
+                                                                return '借阅中'
+                                                            }
+                                                        }),
+                                                        h(DropdownItem, {
+                                                            onClick() {
+                                                                station = '2'
+                                                                dropdown = '申请归还'
+                                                            }
+                                                        }, {
+                                                            default() {
+                                                                return '申请归还'
+                                                            }
+                                                        }),
+                                                        h(DropdownItem, {
+                                                            onClick() {
+                                                                station = '3'
+                                                                dropdown = '已归还'
+                                                            }
+                                                        }, {
+                                                            default() {
+                                                                return '已归还'
+                                                            }
+                                                        })
+                                                    ]
+                                                }
+                                            })
+                                        }
+                                    }),
+                                ]
+                            }
+                        })
                     ]
                 }
             })

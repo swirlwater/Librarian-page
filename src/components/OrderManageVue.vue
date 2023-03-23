@@ -123,11 +123,11 @@ export default {
             let num = this.data[index].num
             let launchTime = this.data[index].launchTime
             let station = this.data[index].station
-            let dropdown=''
-            if(station=='0'){
-                dropdown='未处理'
-            }else{
-                dropdown='已处理'
+            let dropdown = ''
+            if (station == '0') {
+                dropdown = '未处理'
+            } else {
+                dropdown = '已处理'
             }
             this.$Modal.confirm({
                 onOk: () => {
@@ -195,73 +195,81 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h(Space, [
-                            h(Text, {
-                                modelValue: '发起时间：'
-                            }),
-                            h(DatePicker, {
-                                type: 'datetime',
-                                modelValue: launchTime,
-                                'onOnChange': (date) => {
-                                    launchTime = date
-                                }
-                            })
-                        ]),
-                        h(Space, [
-                            h(Text, {
-                                modelValue: '状态：'
-                            }),
-                            h(Dropdown, {
-                                placement: 'bottom-start',
-                            }, {
-                                default() {
-                                    return h('div', [
-                                        h('span', {
-                                            color: '#515a6e'
-                                        }, {
-                                            default() {
-                                                return dropdown
-                                            }
-                                        }),
-                                        h(Icon, {
-                                            type: 'ios-arrow-down'
-                                        }, {
-                                            default() {
-                                                return ''
-                                            }
-                                        })
-                                    ])
-                                },
-                                list() {
-                                    return h(DropdownMenu, null, {
-                                        default() {
-                                            return [
-                                                h(DropdownItem, {
-                                                    onClick() {
-                                                        dropdown = '未处理'
-                                                        station='0'
-                                                    }
-                                                }, {
-                                                    default() {
-                                                        return '未处理'
-                                                    }
-                                                }),
-                                                h(DropdownItem, {
-                                                    onClick() {
-                                                        station='1'
-                                                        dropdown = '已处理'
-                                                    }
-                                                }, {
-                                                    default() {
-                                                        return '已处理'
-                                                    }
-                                                })
-                                            ]
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '发起时间：'
+                                    }),
+                                    h(DatePicker, {
+                                        type: 'datetime',
+                                        modelValue: launchTime,
+                                        'onOnChange': (date) => {
+                                            launchTime = date
                                         }
                                     })
-                                }
-                            }),
-                        ])
+                                ]
+                            }
+                        }),
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '状态：'
+                                    }),
+                                    h(Dropdown, {
+                                        placement: 'bottom-start',
+                                    }, {
+                                        default() {
+                                            return h('div', [
+                                                h('span', {
+                                                    color: '#515a6e'
+                                                }, {
+                                                    default() {
+                                                        return dropdown
+                                                    }
+                                                }),
+                                                h(Icon, {
+                                                    type: 'ios-arrow-down'
+                                                }, {
+                                                    default() {
+                                                        return ''
+                                                    }
+                                                })
+                                            ])
+                                        },
+                                        list() {
+                                            return h(DropdownMenu, null, {
+                                                default() {
+                                                    return [
+                                                        h(DropdownItem, {
+                                                            onClick() {
+                                                                dropdown = '未处理'
+                                                                station = '0'
+                                                            }
+                                                        }, {
+                                                            default() {
+                                                                return '未处理'
+                                                            }
+                                                        }),
+                                                        h(DropdownItem, {
+                                                            onClick() {
+                                                                station = '1'
+                                                                dropdown = '已处理'
+                                                            }
+                                                        }, {
+                                                            default() {
+                                                                return '已处理'
+                                                            }
+                                                        })
+                                                    ]
+                                                }
+                                            })
+                                        }
+                                    }),
+                                ]
+                            }
+                        })
                     ]
                 }
             })
@@ -302,7 +310,7 @@ export default {
             let author = ''
             let num = 1
             let launchTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
-            let station='0'
+            let station = '0'
             //打开添加订单对话框
             this.$Modal.confirm({
                 onOk: () => {
