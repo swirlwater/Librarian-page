@@ -63,6 +63,16 @@ export default {
             this.$Message.info(failResponse)
         })
         this.user = this.$store.getters.getUser
+        if(JSON.stringify(this.user)=='{}'){
+            this.$axios.get('/user/query')
+            .then((successResponse)=>{
+                this.user=successResponse.data.object
+                this.$store.dispatch('setUser', successResponse.data.object)
+            })
+            .catch((failResponse)=>{
+                this.$Message.info(failResponse)
+            })
+        }
     },
     components: {
         Icon,

@@ -55,7 +55,6 @@ export default {
                     width: 180,
                     align: 'center',
                     render: (h, params) => {
-                        console.log(params.row.author)
                         return h('div', [
                             h(resolveComponent('Button'), {
                                 type: 'primary',
