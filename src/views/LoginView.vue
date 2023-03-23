@@ -41,6 +41,7 @@ export default {
           .then(successResponse => {
             if (successResponse.data.code == 200) {
               localStorage.setItem('token',successResponse.data.object["token"])
+              this.$store.dispatch('setUser', successResponse.data.object['user'])
               this.$router.push('/main')
             }
           }).catch(failResponse => {

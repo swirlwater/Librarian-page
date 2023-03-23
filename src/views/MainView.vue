@@ -1,27 +1,23 @@
 <template>
     <div class="layout">
         <Layout>
-            <Header style="background-color: #fff; border-bottom: #f5f7f9 solid 1px;">
+            <Header style="background-color: #fff; padding: 0px 0px; border: 0px 0px;">
                 <Menu mode="horizontal" theme="light" active-name="1" style="width: 100%;">
                     <div class="layout-logo"></div>
                     <div class="layout-title">图书馆管理系统</div>
-                    <div class="layout-nav">
-                        <MenuItem name="1">
-                        <Icon type="ios-navigate"></Icon>
-                        Item 1
-                        </MenuItem>
-                        <MenuItem name="2">
-                        <Icon type="ios-keypad"></Icon>
-                        Item 2
-                        </MenuItem>
-                        <MenuItem name="3">
-                        <Icon type="ios-analytics"></Icon>
-                        Item 3
-                        </MenuItem>
-                        <MenuItem name="4">
-                        <Icon type="ios-paper"></Icon>
-                        Item 4
-                        </MenuItem>
+                    <div class="layout-user">
+                        <Dropdown @on-click="onclick">
+                            <a href="javascript:void(0)">
+                                {{ user.nickname }}
+                                <Icon type="ios-arrow-down"></Icon>
+                            </a>
+                            <template #list>
+                                <DropdownMenu>
+                                    <DropdownItem name="userSearch">用户资料</DropdownItem>
+                                    <DropdownItem name="logout">注销</DropdownItem>
+                                </DropdownMenu>
+                            </template>
+                        </Dropdown>
                     </div>
                 </Menu>
             </Header>
@@ -54,7 +50,8 @@ import { Icon, MenuItem } from 'view-ui-plus';
 export default {
     data() {
         return {
-            components: []
+            components: [],
+            user: {}
         }
     },
     mounted() {
@@ -65,14 +62,33 @@ export default {
         }).catch((failResponse) => {
             this.$Message.info(failResponse)
         })
+        this.user = this.$store.getters.getUser
     },
     components: {
-    Icon,
-    MenuItem
-},
+        Icon,
+        MenuItem
+    },
     methods: {
         onselect(name) {
             this.$router.push('/main/' + name)
+        },
+        onclick(name) {
+            if (name == 'logout') {
+                this.$Modal.confirm({
+                    content: '您是否确定退出？',
+                    onOk: () => {
+                        this.$axios.get('/user/logout')
+                            .then(successResponse => {
+                                this.$Message.success(successResponse.data.message)
+                                this.$router.push('/login')
+                            }).catch(failResponse => {
+                                console.log(failResponse)
+                            })
+                    }
+                })
+            }else{
+                this.$router.push('/main/'+name)
+            }
         }
     }
 }
@@ -103,6 +119,16 @@ export default {
     height: 30px;
     line-height: 30px;
     float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
+}
+
+.layout-user {
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
+    float: right;
     position: relative;
     top: 15px;
     left: 20px;

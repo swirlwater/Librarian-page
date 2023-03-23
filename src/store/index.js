@@ -2,9 +2,12 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
-
+    user:{}
   },
   getters: {
+    getUser:function(state){
+      return state.user;
+    }
   },
   mutations: {
     dateformat(args) {
@@ -20,10 +23,15 @@ const store = createStore({
         let ss = dt.getSeconds()
         return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
       }
+    },
+    setUser: function(state,user){
+      state.user=user
     }
   },
   actions: {
-
+    setUser({commit},user){
+      commit('setUser',user)
+    }
   },
   modules: {
   }
