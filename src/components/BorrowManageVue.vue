@@ -455,32 +455,38 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h('div', [
-                            h(Text, {
-                                modelValue: '借出时间：'
-                            }),
-                            h(Input, {
-                                size: "default",
-                                modelValue: lendTime,
-                                placeholder: 'Please enter lendTime...',
-                                'onInput': (event) => {
-                                    lendTime = event.target.value;
-                                }
-                            })
-                        ]),
-                        h('div', [
-                            h(Text, {
-                                modelValue: '归还时间：'
-                            }),
-                            h(Input, {
-                                size: "default",
-                                modelValue: repaidTime,
-                                placeholder: 'Please enter repaidTime...',
-                                'onInput': (event) => {
-                                    repaidTime = event.target.value;
-                                }
-                            })
-                        ])
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '借出时间：'
+                                    }),
+                                    h(DatePicker, {
+                                        type: 'datetime',
+                                        modelValue: lendTime,
+                                        'onOnChange': (date) => {
+                                            lendTime = date
+                                        }
+                                    })
+                                ]
+                            }
+                        }),
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '归还时间：'
+                                    }),
+                                    h(DatePicker, {
+                                        type: 'datetime',
+                                        modelValue: repaidTime,
+                                        'onOnChange': (date) => {
+                                            repaidTime = date
+                                        }
+                                    })
+                                ]
+                            }
+                        }),
                     ]
                 }
             })

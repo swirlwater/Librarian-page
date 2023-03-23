@@ -377,15 +377,20 @@ export default {
                                 num = event.target.value;
                             }
                         }),
-                        h(Text, {
-                            modelValue: '发起时间：'
-                        }),
-                        h(Input, {
-                            size: "default",
-                            modelValue: launchTime,
-                            placeholder: 'Please enter launchTime...',
-                            'onInput': (event) => {
-                                this.launchTime = event.target.value;
+                        h(Space, null, {
+                            default() {
+                                return [
+                                    h(Text, {
+                                        modelValue: '发起时间：'
+                                    }),
+                                    h(DatePicker, {
+                                        type: 'datetime',
+                                        modelValue: launchTime,
+                                        'onOnChange': (date) => {
+                                            launchTime = date
+                                        }
+                                    })
+                                ]
                             }
                         })
                     ]
