@@ -11,7 +11,7 @@ const API = axios.create({
 API.interceptors.request.use(//axios请求拦截器
   config => {
     ViewUIPlus.LoadingBar.start()
-    if (config.url.includes('/login') || config.url.includes('/register')) {
+    if (config.url.includes('/login') || config.url.includes('/register')|| config.url.includes('/captcha')) {
       localStorage.removeItem('token')
     }
     //设置token
@@ -46,6 +46,7 @@ API.interceptors.response.use(//axios响应拦截器
     // }
     return response
   }, error => {
+    console.log(error);
     ViewUIPlus.LoadingBar.error()
     return Promise.reject(error)
   }
