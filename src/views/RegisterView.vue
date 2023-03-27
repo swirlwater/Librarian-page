@@ -9,7 +9,7 @@
         <Login ref="form" @on-submit="handleSubmit">
             <UserName name="username" value="" />
             <Mobile name="phone" value="" />
-            <Email name="email" @on-change="search"/>
+            <Email name="email" @on-change="getEmail" />
             <Captcha name="captcha" :field="['email']" @on-get-captcha="handleGetCaptcha" />
             <Poptip trigger="focus" placement="right" width="240">
                 <Password name="password" :rules="passwordRule" placeholder="至少6位密码，区分大小写"
@@ -63,7 +63,7 @@ export default {
             ],
             // 密码长度，在密码强度提示时作为判断依据
             passwordLen: 0,
-            email:''
+            email: ''
         }
     },
     components: {
@@ -101,15 +101,18 @@ export default {
         handleChangePassword(val) {
             this.passwordLen = val.length;
         },
-        handleSubmit(valid, { username, email, password, phone }) {
+        handleSubmit(valid, { username, email, password, phone, captcha }) {
             if (valid) {
                 this.$axios.post('/user/register', {
-                    username: username,
-                    email: email,
-                    password: password,
-                    phone: phone
-                }).then(() => {
-                    this.$Message.success('注册成功')
+                    user: {
+                        username: username,
+                        email: email,
+                        password: password,
+                        phone: phone,
+                    },
+                    captcha: captcha
+                }).then(successResponse => {
+                    this.$Message.success(successResponse.data.message)
                 }).catch(failResponse => {
                     console.log(failResponse)
                 })
@@ -118,17 +121,17 @@ export default {
         toLogin() {
             this.$router.push('/login')
         },
-        search(e){
-            this.email=e
+        getEmail(e) {
+            this.email = e
         },
         handleGetCaptcha() {
-            this.$axios.get('/user/captcha',{
-                params:{
-                    email:this.email
+            this.$axios.get('/user/captcha', {
+                params: {
+                    email: this.email
                 }
-            }).then((successResponse)=>{
+            }).then((successResponse) => {
                 this.$Message.success(successResponse.data.message)
-            }).catch((failResponse)=>{
+            }).catch((failResponse) => {
                 this.$Message.error(failResponse)
             })
         }
