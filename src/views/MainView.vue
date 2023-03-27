@@ -8,7 +8,7 @@
                     <div class="layout-user">
                         <Dropdown @on-click="onclick">
                             <a href="javascript:void(0)">
-                                {{ user.nickname }}
+                                {{ user.username}}
                                 <Icon type="ios-arrow-down"></Icon>
                             </a>
                             <template #list>
