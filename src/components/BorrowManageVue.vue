@@ -1,4 +1,9 @@
 <template>
+    <Space split>
+        <Link @click="toVerify">审核</Link>
+        <Link style="color: #515a6e;">修改</Link>
+    </Space>
+    <div class="space"></div>
     <Space>
         用户名:
         <Input v-model="username" placeholder="Enter username" style="width: auto">
@@ -58,9 +63,17 @@ export default {
                     key: 'lendTime',
                     render: (h, params) => {
                         if (params.row.lendTime == null) {
-                            return h(Text, null, { default() { return '--' } })
+                            return h(Text, null, {
+                                default() {
+                                    return '--'
+                                }
+                            })
                         } else {
-                            return h(Text, null, { default() { return params.row.lendTime } })
+                            return h(Text, null, {
+                                default() {
+                                    return params.row.lendTime
+                                }
+                            })
                         }
                     }
                 },
@@ -69,9 +82,17 @@ export default {
                     key: 'repaidTime',
                     render: (h, params) => {
                         if (params.row.repaidTime == null) {
-                            return h(Text, null, { default() { return '--' } })
+                            return h(Text, null, {
+                                default() {
+                                    return '--'
+                                }
+                            })
                         } else {
-                            return h(Text, null, { default() { return params.row.repaidTime } })
+                            return h(Text, null, {
+                                default() {
+                                    return params.row.repaidTime
+                                }
+                            })
                         }
                     }
                 },
@@ -79,14 +100,30 @@ export default {
                     title: '状态',
                     key: 'station',
                     render: (h, params) => {
-                        if (params.row.station == '0') {
-                            return h(Text, null, { default() { return '申请借阅' } })
-                        } else if (params.row.station == '1') {
-                            return h(Text, null, { default() { return '借阅中' } })
-                        } else if (params.row.station == '2') {
-                            return h(Text, null, { default() { return '申请归还' } })
+                        if (params.row.station == 0) {
+                            return h(Text, null, {
+                                default() {
+                                    return '申请借阅'
+                                }
+                            })
+                        } else if (params.row.station == 1) {
+                            return h(Text, null, {
+                                default() {
+                                    return '借阅中'
+                                }
+                            })
+                        } else if (params.row.station == 2) {
+                            return h(Text, null, {
+                                default() {
+                                    return '申请归还'
+                                }
+                            })
                         } else {
-                            return h(Text, null, { default() { return '已归还' } })
+                            return h(Text, null, {
+                                default() {
+                                    return '已归还'
+                                }
+                            })
                         }
                     }
                 },
@@ -137,6 +174,10 @@ export default {
         }
     },
     methods: {
+        //跳转到审核页面
+        toVerify(){
+            this.$router.push('/main/borrowVerify')
+        },
         //修改借阅信息
         update(index) {
             let username = this.data[index].username
@@ -147,11 +188,11 @@ export default {
             let repaidTime = this.data[index].repaidTime
             let station = this.data[index].station
             let dropdown = ''
-            if (station == '0') {
+            if (station == 0) {
                 dropdown = '申请借阅'
-            } else if (station == '1') {
+            } else if (station == 1) {
                 dropdown = '借阅中'
-            } else if (station == '2') {
+            } else if (station == 2) {
                 dropdown = '申请归还'
             } else {
                 dropdown = '已归还'
@@ -289,7 +330,7 @@ export default {
                                                         h(DropdownItem, {
                                                             onClick() {
                                                                 dropdown = '申请借阅'
-                                                                station = '0'
+                                                                station = 0
                                                             }
                                                         }, {
                                                             default() {
@@ -298,7 +339,7 @@ export default {
                                                         }),
                                                         h(DropdownItem, {
                                                             onClick() {
-                                                                station = '1'
+                                                                station = 1
                                                                 dropdown = '借阅中'
                                                             }
                                                         }, {
@@ -308,7 +349,7 @@ export default {
                                                         }),
                                                         h(DropdownItem, {
                                                             onClick() {
-                                                                station = '2'
+                                                                station = 2
                                                                 dropdown = '申请归还'
                                                             }
                                                         }, {
@@ -318,7 +359,7 @@ export default {
                                                         }),
                                                         h(DropdownItem, {
                                                             onClick() {
-                                                                station = '3'
+                                                                station = 3
                                                                 dropdown = '已归还'
                                                             }
                                                         }, {
@@ -338,30 +379,26 @@ export default {
                 }
             })
         },
-        //同意借阅
-        agree(index) {
-            this.$axios.get('/borrow/agreeLend', {
-                params: {
-                    id: this.data[index].id
-                }
-            }).then(successResponse => {
-                this.$Message.success(successResponse.data.message)
-            }).catch(failResponse => {
-                this.$Message.error(failResponse.data.message)
-            })
-        },
         //删除借阅记录
         remove(index) {
-            this.$axios.delete('/borrow/delete', {
-                params: {
-                    ids: this.data[index].id
+            this.$Modal.confirm({
+                content: '您确定删除该记录？',
+                onOk: () => {
+                    this.$axios.delete('/borrow/delete', {
+                        params: {
+                            ids: this.data[index].id
+                        }
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                    }).catch(failResponse => {
+                        this.$Message.error(failResponse.data.message)
+                    })
+                    this.data.splice(index, 1);
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel')
                 }
-            }).then(successResponse => {
-                this.$Message.success(successResponse.data.message)
-            }).catch(failResponse => {
-                this.$Message.error(failResponse.data.message)
             })
-            this.data.splice(index, 1);
         },
         query(username, bookName, author, currentPage) {
             //发送查询借阅请求

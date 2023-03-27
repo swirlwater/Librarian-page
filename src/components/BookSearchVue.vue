@@ -67,7 +67,7 @@ export default {
                                 }
                             }, {
                                 default() {
-                                    return '申请借阅'
+                                    return '借阅'
                                 }
                             })
                         ]);

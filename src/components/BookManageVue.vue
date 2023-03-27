@@ -178,7 +178,7 @@ export default {
                             modelValue: num,
                             placeholder: 'Please enter number...',
                             'onInput': (event) => {
-                                num= event.target.value;
+                                num = event.target.value;
                             }
                         }),
                     ]
@@ -199,12 +199,12 @@ export default {
                     }).catch(failResponse => {
                         this.$Message.error(failResponse.data.message)
                     })
+                    this.data.splice(index, 1);
                 },
                 onCancel: () => {
                     this.$Message.info('Clicked cancel')
                 }
             })
-            this.data.splice(index, 1);
         },
         query(bookName, author, currentPage) {
             //发送查询图书请求

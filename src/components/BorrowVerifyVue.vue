@@ -1,18 +1,29 @@
 <template>
+    <Space split>
+        <Link style="color: #515a6e;">审核</Link>
+        <Link @click="toUpdate">修改</Link>
+    </Space>
+    <div class="space"></div>
     <Space>
+        用户名:
+        <Input v-model="username" placeholder="Enter username" style="width: auto">
+        <template #prefix>
+            <Icon type="ios-people" />
+        </template>
+        </Input>
         书名:
-        <Input v-model="bookName" placeholder="Enter name" style="width: auto">
+        <Input v-model="bookName" placeholder="Enter bookname" style="width: auto">
         <template #prefix>
             <Icon type="ios-book" />
         </template>
         </Input>
         作者:
-        <Input v-model="author" placeholder="Enter text" style="width: auto">
+        <Input v-model="author" placeholder="Enter author" style="width: auto">
         <template #prefix>
             <Icon type="ios-contact" />
         </template>
         <template #suffix>
-            <Icon type="ios-search" @click="query(bookName, author, currentPage)" />
+            <Icon type="ios-search" @click="query(username, bookName, author, currentPage)" />
         </template>
         </Input>
     </Space>
@@ -23,13 +34,17 @@
 </template>
 
 <script>
-import { resolveComponent } from 'vue'
 import { Text } from 'view-ui-plus'
+import { resolveComponent } from 'vue'
 
 export default {
     data() {
         return {
             columns: [
+                {
+                    title: '用户名',
+                    key: 'username'
+                },
                 {
                     title: '书名',
                     key: 'bookName'
@@ -43,10 +58,10 @@ export default {
                     key: 'num'
                 },
                 {
-                    title: '借阅时间',
+                    title: '借出时间',
                     key: 'lendTime',
                     render: (h, params) => {
-                        if (params.row.lendTime == null || params.row.lendTime == '') {
+                        if (params.row.lendTime == null) {
                             return h(Text, null, {
                                 default() {
                                     return '--'
@@ -65,7 +80,7 @@ export default {
                     title: '归还时间',
                     key: 'repaidTime',
                     render: (h, params) => {
-                        if (params.row.repaidTime == null || params.row.repaidTime == '') {
+                        if (params.row.repaidTime == null) {
                             return h(Text, null, {
                                 default() {
                                     return '--'
@@ -102,16 +117,10 @@ export default {
                                     return '申请归还'
                                 }
                             })
-                        } else if (params.row.station == 3) {
-                            return h(Text, null, {
-                                default() {
-                                    return '已归还'
-                                }
-                            })
                         } else {
                             return h(Text, null, {
                                 default() {
-                                    return '已撤销'
+                                    return '已归还'
                                 }
                             })
                         }
@@ -124,35 +133,33 @@ export default {
                     align: 'center',
                     render: (h, params) => {
                         if (params.row.station == 0 || params.row.station == 2) {
-                            return h(resolveComponent('Button'), {
-                                type: 'error',
-                                size: 'small',
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                onClick: () => {
-                                    this.cancel(params.index)
-                                }
-                            }, {
-                                default() {
-                                    return '撤销'
-                                }
-                            })
-                        } else if (params.row.station == 1) {
-                            return h(resolveComponent('Button'), {
-                                type: 'primary',
-                                size: 'small',
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                onClick: () => {
-                                    this.show(params.index)
-                                }
-                            }, {
-                                default() {
-                                    return '归还'
-                                }
-                            })
+                            return h('div', [
+                                h(resolveComponent('Button'), {
+                                    type: 'primary',
+                                    size: 'small',
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    onClick: () => {
+                                        this.agree(params.index)
+                                    }
+                                }, {
+                                    default() {
+                                        return '同意'
+                                    }
+                                }),
+                                h(resolveComponent('Button'), {
+                                    type: 'error',
+                                    size: 'small',
+                                    onClick: () => {
+                                        this.cancel(params.index)
+                                    }
+                                }, {
+                                    default() {
+                                        return '撤销'
+                                    }
+                                })
+                            ]);
                         } else {
                             return h(Text, null, {
                                 default() {
@@ -167,24 +174,31 @@ export default {
 
             ],
             currentPage: 1,
-            author: '',
+            username: '',
             bookName: '',
-            total: 1
+            author: '',
+            total: 1,
         }
     },
     methods: {
-        show(index) {
+        //跳转到修改页面
+        toUpdate() {
+            this.$router.push('/main/borrowManage')
+        },
+        //同意
+        agree(index) {
             this.$Modal.confirm({
-                content: `您是否申请归还图书？`,
+                content: `您是否同意该申请？`,
                 onOk: () => {
-                    this.$axios.get('/borrow/requestRepaid', {
+                    this.$axios.get('/borrow/agree', {
                         params: {
-                            id: this.data[index].id
+                            id: this.data[index].id,
+                            station: this.data[index].station
                         }
                     }).then(successResponse => {
                         this.$Message.success(successResponse.data.message)
                     }).catch(failResponse => {
-                        console.log(failResponse)
+                        this.$Message.error(failResponse.data.message)
                     })
                 },
                 onCancel: () => {
@@ -192,7 +206,7 @@ export default {
                 }
             })
         },
-        //撤销申请
+        //撤销用户申请
         cancel(index) {
             this.$Modal.confirm({
                 content: `您是否确认撤销该申请？`,
@@ -212,41 +226,21 @@ export default {
                 }
             })
         },
-        remove(index) {
-            this.$Modal.confirm({
-                content: `您是否确认删除该记录？`,
-                onOk: () => {
-                    this.$axios.delete('/borrow/delete', {
-                        params: {
-                            ids: this.data[index].id
-                        }
-                    }).then(successResponse => {
-                        this.$Message.success(successResponse.data.message)
-                    }).catch(failResponse => {
-                        console.log(failResponse)
-                    })
-                },
-                onCancel: () => {
-                    this.$Message.info('Clicked cancel')
-                }
-            })
-            this.data.splice(index, 1)
-        },
-        query(bookName, author, currentPage) {
-            this.$axios.get('/borrow/queryWithUser', {
+        query(username, bookName, author, currentPage) {
+            //发送查询借阅请求
+            this.$axios.get('/borrow/query', {
                 params: {
+                    username: username,
                     bookName: bookName,
                     author: author,
                     currentPage: currentPage
                 }
+            }).then(successResponse => {
+                this.data = successResponse.data.object.records
+                this.total = successResponse.data.object.total
+            }).catch(failResponse => {
+                console.log(failResponse)
             })
-                .then(successResponse => {
-                    this.data = successResponse.data.object.records
-                    this.total = successResponse.data.object.total
-                })
-                .catch(failResponse => {
-                    console.log(failResponse)
-                })
         }
     }
 }

@@ -5,9 +5,11 @@ import RegisterView from '@/views/RegisterView'
 import HomeVue from '@/components/HomeVue'
 import BookSearchVue from '@/components/BookSearchVue'
 import BookManageVue from '@/components/BookManageVue'
-import OrderAddVue from '@/components/OrderAddVue'
 import BorrowSearchVue from '@/components/BorrowSearchVue'
+import BorrowVerifyVue from '@/components/BorrowVerifyVue'
 import BorrowManageVue from '@/components/BorrowManageVue'
+import OrderAddVue from '@/components/OrderAddVue'
+import OrderVerifyVue from '@/components/OrderVerifyVue'
 import OrderManageVue from '@/components/OrderManageVue'
 import RoleManageVue from '@/components/RoleManageVue'
 import UserManageVue from '@/components/UserManageVue'
@@ -45,16 +47,24 @@ const routes = [
         component: BookManageVue
       },
       {
-        path: 'orderAdd',
-        component: OrderAddVue
-      },
-      {
         path: 'borrowSearch',
         component: BorrowSearchVue
       },
       {
+        path: 'borrowVerify',
+        component:BorrowVerifyVue
+      },
+      {
         path: 'borrowManage',
         component: BorrowManageVue
+      },
+      {
+        path: 'orderAdd',
+        component: OrderAddVue
+      },
+      {
+        path: 'orderVerify',
+        component: OrderVerifyVue
       },
       {
         path: 'orderManage',

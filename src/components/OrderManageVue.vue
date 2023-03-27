@@ -1,4 +1,9 @@
 <template>
+    <Space split>
+        <Link @click="toVerify">审核</Link>
+        <Link style="color: #515a6e;">修改</Link>
+    </Space>
+    <div class="space"></div>
     <Space>
         用户名:
         <Input v-model="username" placeholder="Enter username" style="width: auto">
@@ -61,10 +66,18 @@ export default {
                     title: '状态',
                     key: 'station',
                     render: (h, params) => {
-                        if (params.row.station == '0') {
-                            return h(Text, {}, { default() { return '未处理' } })
+                        if (params.row.station == 0) {
+                            return h(Text, null, {
+                                default() {
+                                    return '未处理'
+                                }
+                            })
                         } else {
-                            return h(Text, {}, { default() { return '已处理' } })
+                            return h(Text, null, {
+                                default() {
+                                    return '已处理'
+                                }
+                            })
                         }
                     }
                 },
@@ -115,6 +128,10 @@ export default {
         }
     },
     methods: {
+        //跳转到审核页面
+        toVerify(){
+            this.$router.push('/main/orderVerify')
+        },
         //修改订单信息
         update(index) {
             let username = this.data[index].username
@@ -124,7 +141,7 @@ export default {
             let launchTime = this.data[index].launchTime
             let station = this.data[index].station
             let dropdown = ''
-            if (station == '0') {
+            if (station == 0) {
                 dropdown = '未处理'
             } else {
                 dropdown = '已处理'
@@ -245,7 +262,7 @@ export default {
                                                         h(DropdownItem, {
                                                             onClick() {
                                                                 dropdown = '未处理'
-                                                                station = '0'
+                                                                station = 0
                                                             }
                                                         }, {
                                                             default() {
@@ -254,7 +271,7 @@ export default {
                                                         }),
                                                         h(DropdownItem, {
                                                             onClick() {
-                                                                station = '1'
+                                                                station = 1
                                                                 dropdown = '已处理'
                                                             }
                                                         }, {
@@ -310,7 +327,7 @@ export default {
             let author = ''
             let num = 1
             let launchTime = this.dateformat('yyyy-MM-dd HH:mm:ss')
-            let station = '0'
+            let station = 0
             //打开添加订单对话框
             this.$Modal.confirm({
                 onOk: () => {

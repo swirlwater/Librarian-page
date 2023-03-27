@@ -59,8 +59,24 @@ export default {
                     title: '状态',
                     key: 'station',
                     render: (h, params) => {
-                        if (params.row.station == '0') {
-                            return h(Text, {}, { default() { return '审核中' } })
+                        if (params.row.station == 0) {
+                            return h(Text, null, {
+                                default() {
+                                    return '审核中'
+                                }
+                            })
+                        }else if(params.row.station==2){
+                            return h(Text,null,{
+                                default(){
+                                    return '撤销'
+                                }
+                            })
+                        }else{
+                            return h(Text,null,{
+                                default(){
+                                    return '已处理'
+                                }
+                            })
                         }
                     }
                 },
@@ -70,33 +86,41 @@ export default {
                     width: 180,
                     align: 'center',
                     render: (h, params) => {
-                        return h('div', [
-                            h(resolveComponent('Button'), {
-                                type: 'primary',
-                                size: 'small',
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                onClick: () => {
-                                    this.update(params.index)
-                                }
-                            }, {
+                        if (params.row.station == 0) {
+                            return h('div', [
+                                h(resolveComponent('Button'), {
+                                    type: 'primary',
+                                    size: 'small',
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    onClick: () => {
+                                        this.update(params.index)
+                                    }
+                                }, {
+                                    default() {
+                                        return '修改'
+                                    }
+                                }),
+                                h(resolveComponent('Button'), {
+                                    type: 'error',
+                                    size: 'small',
+                                    onClick: () => {
+                                        this.remove(params.index)
+                                    }
+                                }, {
+                                    default() {
+                                        return '撤销'
+                                    }
+                                })
+                            ]);
+                        } else {
+                            return h(Text, null, {
                                 default() {
-                                    return '修改'
-                                }
-                            }),
-                            h(resolveComponent('Button'), {
-                                type: 'error',
-                                size: 'small',
-                                onClick: () => {
-                                    this.remove(params.index)
-                                }
-                            }, {
-                                default() {
-                                    return '删除'
+                                    return '--'
                                 }
                             })
-                        ]);
+                        }
                     }
                 }
             ],
@@ -110,6 +134,26 @@ export default {
         }
     },
     methods: {
+        //撤销
+        cancel(index) {
+            this.$Modal.confirm({
+                content: `您是否撤销给申请？`,
+                onOk: () => {
+                    this.$axios.get('/order/cancel', {
+                        params: {
+                            id: this.data[index].id
+                        }
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                    }).catch(failResponse => {
+                        this.$Message.error(failResponse)
+                    })
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel')
+                }
+            })
+        },
         //修改图书信息
         update(index) {
             let bookName = this.data[index].bookName
@@ -200,16 +244,24 @@ export default {
         },
         //删除订单
         remove(index) {
-            this.$axios.delete('/order/delete', {
-                params: {
-                    ids: this.data[index].id
+            this.$Modal.confirm({
+                content: `您是否删除该订单`,
+                onOk: () => {
+                    this.$axios.delete('/order/delete', {
+                        params: {
+                            ids: this.data[index].id
+                        }
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                        this.data.splice(index, 1);
+                    }).catch(failResponse => {
+                        this.$Message.error(failResponse.data.message)
+                    })
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel');
                 }
-            }).then(successResponse => {
-                this.$Message.success(successResponse.data.message)
-            }).catch(failResponse => {
-                this.$Message.error(failResponse.data.message)
             })
-            this.data.splice(index, 1);
         },
         query(bookName, author, currentPage) {
             //发送查询订单请求
