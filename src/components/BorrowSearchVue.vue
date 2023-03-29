@@ -1,13 +1,13 @@
 <template>
     <Space>
         书名:
-        <Input v-model="bookName" placeholder="Enter name" style="width: auto">
+        <Input v-model="bookName" placeholder="Enter bookname" style="width: auto">
         <template #prefix>
             <Icon type="ios-book" />
         </template>
         </Input>
         作者:
-        <Input v-model="author" placeholder="Enter text" style="width: auto">
+        <Input v-model="author" placeholder="Enter author" style="width: auto">
         <template #prefix>
             <Icon type="ios-contact" />
         </template>

@@ -1,7 +1,7 @@
 <template>
     <Space>
         角色名:
-        <Input v-model="name" placeholder="Enter name" style="width: auto">
+        <Input v-model="name" placeholder="Enter rolename" style="width: auto">
         <template #prefix>
             <Icon type="ios-contact" />
         </template>
@@ -142,7 +142,7 @@ export default {
                         h(Input, {
                             size: "default",
                             modelValue: this.addName,
-                            placeholder: 'Please enter name...',
+                            placeholder: 'Please enter rolename...',
                             'onInput': (event) => {
                                 this.addName = event.target.value;
                             }
