@@ -11,7 +11,7 @@
       <Password name="password" />
       <div class="demo-auto-login">
         <Checkbox v-model="autoLogin" size="large">自动登录</Checkbox>
-        <a>忘记密码</a>
+        <a href="#" @click="updatePassword">忘记密码</a>
       </div>
       <Submit />
     </Login>
@@ -20,6 +20,8 @@
 
 <script>
 import TitleVue from '@/components/TitleVue.vue'
+import QueryString from 'qs'
+import { Icon, Input, Space, Text } from 'view-ui-plus'
 
 export default {
   name: 'LoginView',
@@ -40,7 +42,7 @@ export default {
         })
           .then(successResponse => {
             if (successResponse.data.code == 200) {
-              localStorage.setItem('token',successResponse.data.object["token"])
+              localStorage.setItem('token', successResponse.data.object["token"])
               this.$store.dispatch('setUser', successResponse.data.object['user'])
               this.$router.push('/main')
             }
@@ -52,6 +54,109 @@ export default {
     },
     toRegister() {
       this.$router.push('/register')
+    },
+    updatePassword() {
+      let username = ''
+      let lastPassword = ''
+      let newPassword = ''
+      this.$Modal.confirm({
+        onOk: () => {
+          this.$axios({
+            method: 'put',
+            url: '/user/updatePassword',
+            data: QueryString.stringify({
+              username: username,
+              lastPassword: lastPassword,
+              newPassword: newPassword
+            })
+          }).then(successResponse => {
+            this.$Message.succecc(successResponse.data.message)
+          }).catch(failResponse => {
+            this.$Message.error(failResponse)
+          })
+        },
+        render: (h) => {
+          return [
+            h(Space, null, {
+              default() {
+                return [
+                  h(Text, {
+                    modelValue: '用户名：'
+                  }),
+                  h(Input, {
+                    modelValue: username,
+                    'onInput': (event) => {
+                      username = event.target.value;
+                    }
+                  }, {
+                    prepend() {
+                      return h(Icon, {
+                        type: 'ios-person-outline'
+                      }, {
+                        default() {
+                          return ''
+                        }
+                      })
+                    }
+                  })
+                ]
+              }
+            }),
+            h(Space, null, {
+              default() {
+                return [
+                  h(Text, {
+                    modelValue: '原密码：'
+                  }),
+                  h(Input, {
+                    type: 'password',
+                    modelValue: lastPassword,
+                    'onInput': (event) => {
+                      lastPassword = event.target.value;
+                    }
+                  }, {
+                    prepend() {
+                      return h(Icon, {
+                        type: 'ios-lock-outline'
+                      }, {
+                        default() {
+                          return ''
+                        }
+                      })
+                    }
+                  })
+                ]
+              }
+            }),
+            h(Space, null, {
+              default() {
+                return [
+                  h(Text, {
+                    modelValue: '新密码：'
+                  }),
+                  h(Input, {
+                    type: 'password',
+                    modelValue: newPassword,
+                    'onInput': (event) => {
+                      newPassword = event.target.value;
+                    }
+                  }, {
+                    prepend() {
+                      return h(Icon, {
+                        type: 'ios-lock-outline'
+                      }, {
+                        default() {
+                          return ''
+                        }
+                      })
+                    }
+                  })
+                ]
+              }
+            })
+          ]
+        }
+      })
     }
   }
 }
