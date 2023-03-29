@@ -8,7 +8,7 @@
                     <div class="layout-user">
                         <Dropdown @on-click="onclick">
                             <a href="javascript:void(0)">
-                                {{ user.username}}
+                                {{ user.username }}
                                 <Icon type="ios-arrow-down"></Icon>
                             </a>
                             <template #list>
@@ -24,19 +24,18 @@
             <Layout>
                 <Sider hide-trigger :style="{ background: '#fff' }">
                     <Menu theme="light" width="auto" @on-select="onselect">
+                        <MenuItem name="home">
+                        <Icon type="ios-home"></Icon>
+                        首页
+                        </MenuItem>
                         <MenuItem :name="item.component" v-for="item in components" :key="item">
                         <Icon :type="item.icon"></Icon>
                         {{ item.name }}
                         </MenuItem>
                     </Menu>
                 </Sider>
-                <Layout :style="{ padding: '0 24px 24px' }">
-                    <Breadcrumb :style="{ margin: '24px 0' }">
-                        <BreadcrumbItem>Home</BreadcrumbItem>
-                        <BreadcrumbItem>Components</BreadcrumbItem>
-                        <BreadcrumbItem>Layout</BreadcrumbItem>
-                    </Breadcrumb>
-                    <Content :style="{ padding: '24px', minHeight: '500px', background: '#fff' }">
+                <Layout :style="{ padding: '24px 24px' }">
+                    <Content :style="{ padding: '24px', minHeight: '600px', background: '#fff' }">
                         <RouterView />
                     </Content>
                 </Layout>
@@ -63,15 +62,15 @@ export default {
             this.$Message.info(failResponse)
         })
         this.user = this.$store.getters.getUser
-        if(JSON.stringify(this.user)=='{}'){
+        if (JSON.stringify(this.user) == '{}') {
             this.$axios.get('/user/query')
-            .then((successResponse)=>{
-                this.user=successResponse.data.object
-                this.$store.dispatch('setUser', successResponse.data.object)
-            })
-            .catch((failResponse)=>{
-                this.$Message.info(failResponse)
-            })
+                .then((successResponse) => {
+                    this.user = successResponse.data.object
+                    this.$store.dispatch('setUser', successResponse.data.object)
+                })
+                .catch((failResponse) => {
+                    this.$Message.info(failResponse)
+                })
         }
     },
     components: {
@@ -96,8 +95,8 @@ export default {
                             })
                     }
                 })
-            }else{
-                this.$router.push('/main/'+name)
+            } else {
+                this.$router.push('/main/' + name)
             }
         }
     }
