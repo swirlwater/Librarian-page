@@ -6,14 +6,14 @@
             <Icon type="ios-contact" />
         </template>
         <template #suffix>
-            <Icon type="ios-search" @click="query(username)" />
+            <Icon type="ios-search" @click="query(username,currentPage)" />
         </template>
         </Input>
     </Space>
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-<Page v-model="currentPage" :total="total" />
+<Page v-model="currentPage" :total="total" @on-change="changePage" />
 </template>
 
 <script>
@@ -81,6 +81,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.query(this.username,page)
+        },
         //修改用户角色
         update(index) {
             this.updateRoles=[]
@@ -180,12 +183,12 @@ export default {
             })
             this.data.splice(index, 1);
         },
-        query(username) {
+        query(username,currentPage) {
             //发送查询角色请求
             this.$axios.get('/user/queryAll', {
                 params: {
                     username: username,
-                    currentPage: this.currentPage
+                    currentPage: currentPage
                 }
             }).then(successResponse => {
                 this.data = successResponse.data.object

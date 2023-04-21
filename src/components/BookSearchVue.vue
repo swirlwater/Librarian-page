@@ -19,7 +19,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" />
+    <Page v-model="currentPage" :total="total" @on-change="changePage"/>
 </template>
 
 <script>
@@ -84,6 +84,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.press(this.bookName,this.author,page);
+        },
         show(index) {
             //打开对话框
             this.$Modal.confirm({

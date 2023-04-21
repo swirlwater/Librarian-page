@@ -31,7 +31,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" />
+    <Page v-model="currentPage" :total="total" @on-change="changePage"/>
 </template>
 
 <script>
@@ -128,6 +128,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.query(this.username,this.bookName,this.author,page)
+        },
         //跳转到审核页面
         toVerify(){
             this.$router.push('/main/orderVerify')

@@ -30,7 +30,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" />
+    <Page v-model="currentPage" :total="total" @on-change="changePage"/>
 </template>
 
 <script>
@@ -135,6 +135,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.query(this.username,this.bookName,this.author,page)
+        },
         //跳转到修改页面
         toUpdate() {
             this.$router.push('/main/orderManage')

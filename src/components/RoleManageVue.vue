@@ -6,7 +6,7 @@
             <Icon type="ios-contact" />
         </template>
         <template #suffix>
-            <Icon type="ios-search" @click="query(name)" />
+            <Icon type="ios-search" @click="query(name,currentPage)" />
         </template>
         </Input>
         <Button icon="ios-cart" @click="add()">添加角色</Button>
@@ -14,7 +14,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" />
+    <Page v-model="currentPage" :total="total" @on-change="changePage" />
 </template>
 
 <script>
@@ -99,6 +99,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.query(this.name,page)
+        },
         //修改角色信息
         update(index) {
             this.addName = this.data[index].name
@@ -210,12 +213,12 @@ export default {
             })
             this.data.splice(index, 1);
         },
-        query(name) {
+        query(name,currentPage) {
             //发送查询角色请求
             this.$axios.get('/role/query', {
                 params: {
                     name: name,
-                    currentPage: this.currentPage
+                    currentPage: currentPage
                 }
             }).then(successResponse => {
                 this.data = successResponse.data.object

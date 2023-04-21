@@ -20,7 +20,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" />
+    <Page v-model="currentPage" :total="total" @on-change="changePage"/>
 </template>
 
 <script>
@@ -134,6 +134,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.query(this.bookName,this.author,page)
+        },
         //撤销
         cancel(index) {
             this.$Modal.confirm({

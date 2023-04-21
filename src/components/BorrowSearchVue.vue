@@ -19,7 +19,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" />
+    <Page v-model="currentPage" :total="total" @on-change="changePage"/>
 </template>
 
 <script>
@@ -173,6 +173,9 @@ export default {
         }
     },
     methods: {
+        changePage(page){
+            this.query(this.bookName,this.author,page)
+        },
         show(index) {
             this.$Modal.confirm({
                 content: `您是否申请归还图书？`,
