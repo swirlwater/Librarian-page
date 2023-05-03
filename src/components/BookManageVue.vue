@@ -190,7 +190,7 @@ export default {
         },
         //删除图书
         remove(index) {
-            this.$Model.confirm({
+            this.$Modal.confirm({
                 content: '您是否确认删除该图书?',
                 onOk: () => {
                     this.$axios.delete('/book/delete', {

@@ -31,7 +31,7 @@
     <div class="space"></div>
     <Table border :columns="columns" :data="data"></Table>
     <div class="space"></div>
-    <Page v-model="currentPage" :total="total" @on-change="changePage"/>
+    <Page v-model="currentPage" :total="total" @on-change="changePage" />
 </template>
 
 <script>
@@ -128,11 +128,11 @@ export default {
         }
     },
     methods: {
-        changePage(page){
-            this.query(this.username,this.bookName,this.author,page)
+        changePage(page) {
+            this.query(this.username, this.bookName, this.author, page)
         },
         //跳转到审核页面
-        toVerify(){
+        toVerify() {
             this.$router.push('/main/orderVerify')
         },
         //修改订单信息
@@ -296,16 +296,24 @@ export default {
         },
         //删除订单信息
         remove(index) {
-            this.$axios.delete('/order/delete', {
-                params: {
-                    ids: this.data[index].id
+            this.$Modal.confirm({
+                content: '您是否确认删除该订单?',
+                onOk: () => {
+                    this.$axios.delete('/order/delete', {
+                        params: {
+                            ids: this.data[index].id
+                        }
+                    }).then(successResponse => {
+                        this.$Message.success(successResponse.data.message)
+                    }).catch(failResponse => {
+                        this.$Message.error(failResponse.data.message)
+                    })
+                    this.data.splice(index, 1);
+                },
+                onCancel: () => {
+                    this.$Message.info('Clicked cancel')
                 }
-            }).then(successResponse => {
-                this.$Message.success(successResponse.data.message)
-            }).catch(failResponse => {
-                this.$Message.error(failResponse.data.message)
             })
-            this.data.splice(index, 1);
         },
         query(username, bookName, author, currentPage) {
             //发送查询订单请求
