@@ -25,7 +25,7 @@ export default {
           blankTarget: true
         }
       ],
-      copyright: 'Copyright © 2023 Librarian-page All Rights Reserved'
+      copyright: '广东财经大学 © 2023 Librarian-page All Rights Reserved'
     }
   }
 }
