@@ -2,11 +2,15 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
-    user:{}
+    user:{},
+    permissions:[]
   },
   getters: {
     getUser:function(state){
-      return state.user;
+      return state.user
+    },
+    getPermissions:function(state){
+      return state.permissions
     }
   },
   mutations: {
@@ -26,11 +30,17 @@ const store = createStore({
     },
     setUser: function(state,user){
       state.user=user
+    },
+    setPermissions:function(state,permissions){
+      state.permissions=permissions
     }
   },
   actions: {
     setUser({commit},user){
       commit('setUser',user)
+    },
+    setPermissions({commit},permissions){
+      commit('setPermissions',permissions)
     }
   },
   modules: {

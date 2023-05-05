@@ -42,8 +42,11 @@ export default {
         })
           .then(successResponse => {
             if (successResponse.data.code == 200) {
-              localStorage.setItem('token', successResponse.data.object["token"])
+              sessionStorage.setItem('token', successResponse.data.object["token"])
+              sessionStorage.setItem('user',JSON.stringify(successResponse.data.object['user']))
+              sessionStorage.setItem('permissions',JSON.stringify(successResponse.data.object['permissions']))
               this.$store.dispatch('setUser', successResponse.data.object['user'])
+              this.$store.dispatch('setPermissions', successResponse.data.object['permissions'])
               this.$router.push('/main')
             }
           }).catch(failResponse => {

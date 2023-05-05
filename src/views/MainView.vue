@@ -55,22 +55,14 @@ export default {
     },
     mounted() {
         this.$router.push('/main/home')
-        this.$axios.get('/user/permissions', {
-        }).then((successResponse) => {
-            this.components = successResponse.data.object
-        }).catch((failResponse) => {
-            this.$Message.info(failResponse)
-        })
+        this.components=this.$store.getters.getPermissions
+        if(JSON.stringify(this.components)=='[]'){
+            this.components=JSON.parse(sessionStorage.getItem('permissions'))
+        }
         this.user = this.$store.getters.getUser
         if (JSON.stringify(this.user) == '{}') {
-            this.$axios.get('/user/query')
-                .then((successResponse) => {
-                    this.user = successResponse.data.object
-                    this.$store.dispatch('setUser', successResponse.data.object)
-                })
-                .catch((failResponse) => {
-                    this.$Message.info(failResponse)
-                })
+            this.user =JSON.parse(sessionStorage.getItem('user'))
+            this.$store.dispatch('setUser', this.user)
         }
     },
     components: {

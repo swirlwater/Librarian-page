@@ -12,10 +12,10 @@ API.interceptors.request.use(//axios请求拦截器
   config => {
     ViewUIPlus.LoadingBar.start()
     if (config.url.includes('/login') || config.url.includes('/register')|| config.url.includes('/captcha')) {
-      localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
     }
     //设置token
-    let token = localStorage.token
+    let token = sessionStorage.token
     if (token && token !== ' ') {
       config.headers.token = token
     }

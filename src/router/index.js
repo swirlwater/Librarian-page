@@ -102,7 +102,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {//路由前置守卫
   ViewUIPlus.LoadingBar.start()
   if (to.matched.some(recond => recond.meta.requireLogin)) {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       next()
     } else {
       next({ path: '/login' })
