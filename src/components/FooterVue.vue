@@ -9,7 +9,7 @@ export default {
         {
           key: '帮助',
           title: '帮助',
-          href: 'https://www.iviewui.com',
+          href: 'https://github.com/whx1978938887',
           blankTarget: true
         },
         {
@@ -25,7 +25,7 @@ export default {
           blankTarget: true
         }
       ],
-      copyright: '广东财经大学 © 2023 Librarian-page All Rights Reserved'
+      copyright: 'Copyright © 2023 广东财经大学 All Rights Reserved'
     }
   }
 }
