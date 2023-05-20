@@ -17,15 +17,15 @@
 ## 部分功能展示
 
 书籍搜索  
-[![p959e7n.png](https://s1.ax1x.com/2023/05/20/p959e7n.png)](https://imgse.com/i/p959e7n)
+[![书籍搜索](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/bookSearch.png)](https://imgse.com/i/p959e7n)
 借阅管理  
-[![p959nkq.png](https://s1.ax1x.com/2023/05/20/p959nkq.png)](https://imgse.com/i/p959nkq)
+[![借阅管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/borrowManage.png)](https://imgse.com/i/p959nkq)
 书籍管理  
-[![p959ut0.png](https://s1.ax1x.com/2023/05/20/p959ut0.png)](https://imgse.com/i/p959ut0)
+[![书籍管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/bookManage.png)](https://imgse.com/i/p959ut0)
 用户管理  
-[![p959Vmj.png](https://s1.ax1x.com/2023/05/20/p959Vmj.png)](https://imgse.com/i/p959Vmj)
+[![用户管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/userManage.png)](https://imgse.com/i/p959Vmj)
 角色管理  
-[![p959Z0s.png](https://s1.ax1x.com/2023/05/20/p959Z0s.png)](https://imgse.com/i/p959Z0s)
+[![角色管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/roleManage.png)](https://imgse.com/i/p959Z0s)
 
 ## 系统架构
 
@@ -59,8 +59,8 @@
 
 登录页面
 
-[![p95ik6O.png](https://s1.ax1x.com/2023/05/20/p95ik6O.png)](https://imgse.com/i/p95ik6O)
+[![登录页面](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/login.png)](https://imgse.com/i/p95ik6O)
 
 注册页面
 
-[![p95iAXD.png](https://s1.ax1x.com/2023/05/20/p95iAXD.png)](https://imgse.com/i/p95iAXD)
+[![注册页面](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/register.png)](https://imgse.com/i/p95iAXD)
