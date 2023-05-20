@@ -52,3 +52,15 @@
 
 ### 3.项目运行
 执行`npm run serve`运行项目
+
+## 系统登陆
+在保证前后端项目正常运行的情况下在浏览器中输入地址`http://localhost:8081/`进入系统登录页。
+> 初始超级管理员的用户名是zhangsan，密码是1234  
+
+登录页面
+
+[![p95ik6O.png](https://s1.ax1x.com/2023/05/20/p95ik6O.png)](https://imgse.com/i/p95ik6O)
+
+注册页面
+
+[![p95iAXD.png](https://s1.ax1x.com/2023/05/20/p95iAXD.png)](https://imgse.com/i/p95iAXD)
