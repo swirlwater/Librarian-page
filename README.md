@@ -17,15 +17,15 @@
 ## 部分功能展示
 
 书籍搜索  
-[![书籍搜索](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/bookSearch.png)](https://imgse.com/i/p959e7n)
+![书籍搜索](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/bookSearch.png)
 借阅管理  
-[![借阅管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/borrowManage.png)](https://imgse.com/i/p959nkq)
+![借阅管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/borrowManage.png)
 书籍管理  
-[![书籍管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/bookManage.png)](https://imgse.com/i/p959ut0)
+![书籍管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/bookManage.png)
 用户管理  
-[![用户管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/userManage.png)](https://imgse.com/i/p959Vmj)
+![用户管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/userManage.png)
 角色管理  
-[![角色管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/roleManage.png)](https://imgse.com/i/p959Z0s)
+![角色管理](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/roleManage.png)
 
 ## 系统架构
 
@@ -59,8 +59,8 @@
 
 登录页面
 
-[![登录页面](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/login.png)](https://imgse.com/i/p95ik6O)
+![登录页面](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/login.png)
 
 注册页面
 
-[![注册页面](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/register.png)](https://imgse.com/i/p95iAXD)
+![注册页面](http://ruyqi5emy.hn-bkt.clouddn.com/librarian/register.png)
