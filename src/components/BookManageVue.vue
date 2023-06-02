@@ -101,6 +101,7 @@ export default {
       author: "",
       total: 1,
       uploadParams: {},
+      fileKeyMap: {},
     };
   },
   methods: {
@@ -340,6 +341,7 @@ export default {
                 onFormatError: this.handleFormatError,
                 onSuccess: this.handelAddFileSuccess,
                 beforeUpload: this.beforeUpload,
+                onRemove: this.handelRemoveFile,
               },
               {
                 default() {
@@ -368,13 +370,14 @@ export default {
       });
     },
     handelAddFileSuccess(request, file, list) {
-      console.log(file, list, "上传成功");
+      // console.log(file, list, "上传成功");
       // 这里就能拿到七牛返回的response信息（hash, key)然后拼接服务器地址，就可以访问了
       this.imageUrl = this.imgQiniuUrlPre + request.key;
       this.$emit("successFun", [file, list, this.imageUrl]);
     },
     async beforeUpload(request) {
       let filename = new Date().getTime() + "_" + request.name;
+      this.fileKeyMap[request.name] = filename;
       await this.$axios
         .post("/qiniu/getFileUploadToken", {
           fileKey: filename,
@@ -388,6 +391,19 @@ export default {
         })
         .catch((failResponse) => {
           console.log(failResponse);
+        });
+    },
+    handelRemoveFile(file) {
+      let fileKey = this.fileKeyMap[file.name];
+      this.$axios
+        .post("/qiniu/deleteUploadFile", {
+          fileKey: fileKey,
+        })
+        .then((successResponse) => {
+          this.$Message.success(successResponse.data.message);
+        })
+        .catch((failResponse) => {
+          this.$Message.error(failResponse);
         });
     },
   },
