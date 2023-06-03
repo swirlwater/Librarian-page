@@ -267,6 +267,7 @@ export default {
                                 num = event.target.value;
                             }
                         }),
+                        h("div", { style: 'height:10px' }),
                         h(Space, null, {
                             default() {
                                 return [
@@ -283,6 +284,7 @@ export default {
                                 ]
                             }
                         }),
+                        h("div", { style: 'height:10px' }),
                         h(Space, null, {
                             default() {
                                 return [
@@ -299,6 +301,7 @@ export default {
                                 ]
                             }
                         }),
+                        h("div", { style: 'height:10px' }),
                         h(Space, null, {
                             default() {
                                 return [
@@ -495,6 +498,7 @@ export default {
                                 num = event.target.value;
                             }
                         }),
+                        h("div", { style: 'height:10px' }),
                         h(Space, null, {
                             default() {
                                 return [
@@ -511,6 +515,7 @@ export default {
                                 ]
                             }
                         }),
+                        h("div", { style: 'height:10px' }),
                         h(Space, null, {
                             default() {
                                 return [
