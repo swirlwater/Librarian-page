@@ -101,7 +101,8 @@ export default {
       author: "",
       total: 1,
       uploadParams: {},
-      fileKeyMap: {},
+      fileKeys: {},
+      imageUrls: {},
     };
   },
   methods: {
@@ -248,16 +249,25 @@ export default {
       let press = "";
       let content = "";
       let num = 1;
+      this.imageUrls = {};
       //打开添加图书对话框
       this.$Modal.confirm({
         onOk: () => {
+          let bookImageList = [];
+          Object.keys(this.imageUrls).forEach((key) => {
+            let obj = { fileKey: key, url: this.imageUrls[key] };
+            bookImageList.push(obj);
+          });
           this.$axios
             .post("/book/add", {
-              bookName: bookName,
-              author: author,
-              press: press,
-              content: content,
-              num: num,
+              book: {
+                bookName: bookName,
+                author: author,
+                press: press,
+                content: content,
+                num: num,
+              },
+              bookImageList: bookImageList,
             })
             .then(() => {
               this.$Message.success("Added success");
@@ -373,11 +383,12 @@ export default {
       // console.log(file, list, "上传成功");
       // 这里就能拿到七牛返回的response信息（hash, key)然后拼接服务器地址，就可以访问了
       this.imageUrl = this.imgQiniuUrlPre + request.key;
+      this.imageUrls[request.key] = this.imageUrl;
       this.$emit("successFun", [file, list, this.imageUrl]);
     },
     async beforeUpload(request) {
       let filename = new Date().getTime() + "_" + request.name;
-      this.fileKeyMap[request.name] = filename;
+      this.fileKeys[request.name] = filename;
       await this.$axios
         .post("/qiniu/getFileUploadToken", {
           fileKey: filename,
@@ -394,13 +405,14 @@ export default {
         });
     },
     handelRemoveFile(file) {
-      let fileKey = this.fileKeyMap[file.name];
+      let fileKey = this.fileKeys[file.name];
       this.$axios
         .post("/qiniu/deleteUploadFile", {
           fileKey: fileKey,
         })
         .then((successResponse) => {
           this.$Message.success(successResponse.data.message);
+          this.$delete(this.imageUrls, fileKey);
         })
         .catch((failResponse) => {
           this.$Message.error(failResponse);
