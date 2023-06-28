@@ -59,8 +59,8 @@
 
 登录页面
 
-![登录页面](http://wuhaixuan.top/librarian/login.png)
+![登录页面](http://wuhaixuan.top/login.png)
 
 注册页面
 
-![注册页面](http://wuhaixuan.top/librarian/register.png)
+![注册页面](http://wuhaixuan.top/register.png)
